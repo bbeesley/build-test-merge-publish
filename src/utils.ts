@@ -35,14 +35,16 @@ export function getCachePaths(): string[] {
 }
 
 export function getCacheKey(): string {
-  return `btmp-pre-${github.context.runId}-${github.context.runNumber}`;
+  return `btmp-pre-${github.context.runId}`;
 }
 
 export async function saveCache(): Promise<void> {
+  console.log('saving cache');
   await cache.saveCache(getCachePaths(), getCacheKey());
 }
 
 export async function restoreCache(): Promise<void> {
+  console.log('restoring cache');
   await cache.restoreCache(getCachePaths(), getCacheKey());
 }
 

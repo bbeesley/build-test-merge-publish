@@ -8,6 +8,7 @@ export async function approveAndMerge(): Promise<void> {
     github.context.eventName === 'pull_request_target' &&
     github.context.actor === 'dependabot[bot]'
   ) {
+    console.log('detected dependabot PR, auto approving and merging');
     await approvePR();
     await mergePR();
   }

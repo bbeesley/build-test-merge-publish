@@ -8,7 +8,9 @@ module.exports = {
   },
   ignorePatterns: ['node_modules/', 'dist/', '.vscode/'],
   rules: {
+    'no-console': 'off',
     'no-undef': 'error',
+    'import/prefer-default-export': 'off',
     '@typescript-eslint/indent': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     'import/no-extraneous-dependencies': 'off',
