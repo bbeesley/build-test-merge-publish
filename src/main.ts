@@ -1,12 +1,12 @@
 import { getInput } from '@actions/core';
-import { exec } from '@actions/exec';
 import * as github from '@actions/github';
 import { PushEvent } from '@octokit/webhooks-definitions/schema';
-import { restoreCache } from './utils';
+
+import { loggedExec, restoreCache } from './utils';
 
 async function main(): Promise<void> {
   await restoreCache();
-  await exec('npm', ['test']);
+  await loggedExec('npm', ['test']);
   if (github.context.eventName === 'push') {
     const mainBranch = getInput('main-branch');
     const pushPayload = github.context.payload as PushEvent;
@@ -14,7 +14,7 @@ async function main(): Promise<void> {
       const releaseCommand = getInput('release-command');
       const releaseCommandComponents = releaseCommand.split(' ');
       const releaseBin = releaseCommandComponents.shift() || 'npm';
-      await exec(releaseBin, releaseCommandComponents);
+      await loggedExec(releaseBin, releaseCommandComponents);
     }
   }
 }

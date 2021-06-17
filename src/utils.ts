@@ -1,6 +1,7 @@
-import { getInput } from '@actions/core';
-import * as github from '@actions/github';
 import * as cache from '@actions/cache';
+import { getInput } from '@actions/core';
+import { exec, ExecOptions } from '@actions/exec';
+import * as github from '@actions/github';
 import { PullRequestEvent } from '@octokit/webhooks-definitions/schema';
 
 const defaultCachePaths = [
@@ -9,6 +10,22 @@ const defaultCachePaths = [
   'dist',
   'packages/*/dist',
 ];
+
+export async function loggedExec(commandLine: string, args?: string[], options?: ExecOptions): Promise<void> {
+  let errors = '';
+  const res = await exec(commandLine, args, {
+    listeners: {
+      stdout: (data: Buffer) => {
+        console.log(data.toString());
+      },
+      stderr: (data: Buffer) => {
+        errors += data.toString();
+        console.error(data.toString());
+      }
+    }
+  });
+  if (res > 0) throw new Error(`Failed to run operation ${errors}`);
+}
 
 export function getCachePaths(): string[] {
   const cachePaths = (getInput('cache-paths') ?? '')
