@@ -11,6 +11,8 @@ const defaultCachePaths = [
   'packages/*/dist',
 ];
 
+let cachePrimaryKey = getCacheKey();
+
 export async function loggedExec(commandLine: string, args?: string[], options?: ExecOptions): Promise<void> {
   let errors = '';
   const res = await exec(commandLine, args, {
@@ -40,12 +42,13 @@ export function getCacheKey(): string {
 
 export async function saveCache(): Promise<void> {
   console.log('saving cache');
-  await cache.saveCache(getCachePaths(), getCacheKey());
+  await cache.saveCache(getCachePaths(), cachePrimaryKey);
 }
 
 export async function restoreCache(): Promise<void> {
   console.log('restoring cache');
-  await cache.restoreCache(getCachePaths(), getCacheKey());
+  let key = await cache.restoreCache(getCachePaths(), getCacheKey());
+  if (key) cachePrimaryKey = key;
 }
 
 export async function approvePR() {

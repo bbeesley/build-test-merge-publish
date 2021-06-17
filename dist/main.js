@@ -70056,6 +70056,7 @@ var exec = __webpack_require__("./node_modules/@actions/exec/lib/exec.js");
 
 
 const defaultCachePaths = ['node_modules', 'packages/*/node_modules/', 'dist', 'packages/*/dist'];
+let cachePrimaryKey = getCacheKey();
 async function loggedExec(commandLine, args, options) {
   let errors = '';
   const res = await (0,exec.exec)(commandLine, args, {
@@ -70082,11 +70083,12 @@ function getCacheKey() {
 }
 async function saveCache() {
   console.log('saving cache');
-  await cache.saveCache(getCachePaths(), getCacheKey());
+  await cache.saveCache(getCachePaths(), cachePrimaryKey);
 }
 async function restoreCache() {
   console.log('restoring cache');
-  await cache.restoreCache(getCachePaths(), getCacheKey());
+  let key = await cache.restoreCache(getCachePaths(), getCacheKey());
+  if (key) cachePrimaryKey = key;
 }
 async function approvePR() {
   var _process$env$GITHUB_T;
