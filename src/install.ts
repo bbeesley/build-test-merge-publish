@@ -2,10 +2,9 @@ import { getInput } from '@actions/core';
 import * as github from '@actions/github';
 import { PullRequestEvent } from '@octokit/webhooks-definitions/schema';
 
-import { isDependabot, loggedExec, restoreCache, saveCache } from './utils';
+import { isDependabot, loggedExec } from './utils';
 
 export async function install(): Promise<void> {
-  await restoreCache();
   // for dependabot PRs, check out PR head before install
   if (isDependabot()) {
     const requestPayload = github.context.payload as PullRequestEvent;
@@ -36,5 +35,4 @@ export async function install(): Promise<void> {
     const buildBin = buildCommandComponents.shift();
     if (buildBin) await loggedExec(buildBin, buildCommandComponents);
   }
-  await saveCache();
 }

@@ -7,13 +7,6 @@ import { PullRequest, MergeMethod } from './@types';
 
 import { EnableAutoMerge } from './generated/graphql';
 
-const defaultCachePaths = [
-  'node_modules',
-  'packages/*/node_modules/',
-  'dist',
-  'packages/*/dist',
-];
-
 export async function loggedExec(commandLine: string, args?: string[], options?: ExecOptions): Promise<void> {
   let errors = '';
   const res = await exec(commandLine, args, {
@@ -28,31 +21,6 @@ export async function loggedExec(commandLine: string, args?: string[], options?:
     }
   });
   if (res > 0) throw new Error(`Failed to run operation ${errors}`);
-}
-
-export function getCachePaths(): string[] {
-  const cachePaths = (getInput('cache-paths') ?? '')
-    .split(',')
-    .filter((e) => e.length > 0);
-  return [...defaultCachePaths, ...cachePaths];
-}
-
-export function getCacheKey(): string {
-  return `btmp-${github.context.runId}-${github.context.runNumber}`;
-}
-
-export function getRestoreKey(): string {
-  return `btmp-${github.context.runId}-`;
-}
-
-export async function saveCache(): Promise<void> {
-  console.log('saving cache');
-  await cache.saveCache(getCachePaths(), getCacheKey());
-}
-
-export async function restoreCache(): Promise<void> {
-  console.log('restoring cache');
-  await cache.restoreCache(getCachePaths(), getCacheKey(), [getRestoreKey()]);
 }
 
 export async function getPR(): Promise<PullRequest> {
