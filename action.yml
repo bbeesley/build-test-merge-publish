@@ -9,7 +9,7 @@ inputs:
   build-command:
     description: Command to run to build the package
     required: false
-  publish-command:
+  release-command:
     description: Command to publish the package
     required: false
     default: npm run release
