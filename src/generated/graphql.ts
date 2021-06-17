@@ -6456,6 +6456,8 @@ export type Issue = Node & Assignable & Closable & Comment & Updatable & Updatab
   timelineItems: IssueTimelineItemsConnection;
   /** Identifies the issue title. */
   title: Scalars['String'];
+  /** Identifies the issue title rendered to HTML. */
+  titleHTML: Scalars['String'];
   /** Identifies the date and time when the object was last updated. */
   updatedAt: Scalars['DateTime'];
   /** The HTTP URL for this issue */
@@ -12371,6 +12373,8 @@ export type PullRequest = Node & Assignable & Closable & Comment & Updatable & U
   timelineItems: PullRequestTimelineItemsConnection;
   /** Identifies the pull request title. */
   title: Scalars['String'];
+  /** Identifies the pull request title rendered to HTML. */
+  titleHTML: Scalars['HTML'];
   /** Identifies the date and time when the object was last updated. */
   updatedAt: Scalars['DateTime'];
   /** The HTTP URL for this pull request. */
@@ -25623,6 +25627,7 @@ export type IssueResolvers<ContextType = any, ParentType extends ResolversParent
   timeline?: Resolver<ResolversTypes['IssueTimelineConnection'], ParentType, ContextType, RequireFields<IssueTimelineArgs, never>>;
   timelineItems?: Resolver<ResolversTypes['IssueTimelineItemsConnection'], ParentType, ContextType, RequireFields<IssueTimelineItemsArgs, never>>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  titleHTML?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   url?: Resolver<ResolversTypes['URI'], ParentType, ContextType>;
   userContentEdits?: Resolver<Maybe<ResolversTypes['UserContentEditConnection']>, ParentType, ContextType, RequireFields<IssueUserContentEditsArgs, never>>;
@@ -27744,6 +27749,7 @@ export type PullRequestResolvers<ContextType = any, ParentType extends Resolvers
   timeline?: Resolver<ResolversTypes['PullRequestTimelineConnection'], ParentType, ContextType, RequireFields<PullRequestTimelineArgs, never>>;
   timelineItems?: Resolver<ResolversTypes['PullRequestTimelineItemsConnection'], ParentType, ContextType, RequireFields<PullRequestTimelineItemsArgs, never>>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  titleHTML?: Resolver<ResolversTypes['HTML'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   url?: Resolver<ResolversTypes['URI'], ParentType, ContextType>;
   userContentEdits?: Resolver<Maybe<ResolversTypes['UserContentEditConnection']>, ParentType, ContextType, RequireFields<PullRequestUserContentEditsArgs, never>>;
