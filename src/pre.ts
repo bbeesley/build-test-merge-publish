@@ -1,4 +1,4 @@
-import { getInput } from '@actions/core';
+import { getInput, setFailed } from '@actions/core';
 import * as github from '@actions/github';
 import { PullRequestEvent } from '@octokit/webhooks-definitions/schema';
 
@@ -30,4 +30,6 @@ async function pre(): Promise<void> {
   // await saveCache();
 }
 
-pre();
+pre().catch(error => {
+  setFailed(error.message);
+});

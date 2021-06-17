@@ -1,4 +1,4 @@
-import { getInput } from '@actions/core';
+import { getInput, setFailed } from '@actions/core';
 import * as github from '@actions/github';
 import { PushEvent } from '@octokit/webhooks-definitions/schema';
 
@@ -22,4 +22,6 @@ async function main(): Promise<void> {
   await approveAndMerge();
 }
 
-main();
+main().catch(error => {
+  setFailed(error.message);
+});
