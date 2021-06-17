@@ -3,6 +3,9 @@ import { getInput } from '@actions/core';
 import { exec, ExecOptions } from '@actions/exec';
 import * as github from '@actions/github';
 import { PullRequestEvent } from '@octokit/webhooks-definitions/schema';
+import { PullRequest, MergeMethod } from './@types';
+
+import { EnableAutoMerge } from './generated/graphql';
 
 const defaultCachePaths = [
   'node_modules',
@@ -52,6 +55,18 @@ export async function restoreCache(): Promise<void> {
   await cache.restoreCache(getCachePaths(), getCacheKey(), [getRestoreKey()]);
 }
 
+export async function getPR(): Promise<PullRequest> {
+  const requestPayload = github.context.payload as PullRequestEvent;
+  const ok = github.getOctokit(
+    process.env.GITHUB_TOKEN ?? (process.env.GH_TOKEN as string)
+  );
+  const res = await ok.rest.pulls.get({
+    ...github.context.repo,
+    pull_number: requestPayload.pull_request.number,
+  });
+  return res.data;
+}
+
 export async function approvePR() {
   const ok = github.getOctokit(
     process.env.GITHUB_TOKEN ?? (process.env.GH_TOKEN as string)
@@ -69,12 +84,13 @@ export async function mergePR() {
   const ok = github.getOctokit(
     process.env.GITHUB_TOKEN ?? (process.env.GH_TOKEN as string)
   );
-  const requestPayload = github.context.payload as PullRequestEvent;
-  await ok.rest.pulls.merge({
-    owner: github.context.repo.owner,
-    repo: github.context.repo.repo,
-    pull_number: requestPayload.pull_request.number,
-  });
+  const query = EnableAutoMerge.loc!.source!.body
+  const pullRequest = await getPR();
+  await ok.graphql({
+      query,
+      pullRequestId: pullRequest.node_id,
+      mergeMethod: 'rebase',
+    });
 }
 
 export function isDependabot(): boolean {
