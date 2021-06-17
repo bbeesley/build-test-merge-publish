@@ -22,6 +22,4 @@ inputs:
     default: 'main'
 runs:
   using: 'node12'
-  pre: 'dist/pre.js'
   main: 'dist/main.js'
-  post: 'dist/post.js'
