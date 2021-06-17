@@ -11,8 +11,6 @@ const defaultCachePaths = [
   'packages/*/dist',
 ];
 
-let cachePrimaryKey = getCacheKey();
-
 export async function loggedExec(commandLine: string, args?: string[], options?: ExecOptions): Promise<void> {
   let errors = '';
   const res = await exec(commandLine, args, {
@@ -37,18 +35,21 @@ export function getCachePaths(): string[] {
 }
 
 export function getCacheKey(): string {
-  return `btmp-${github.context.runId}`;
+  return `btmp-${github.context.runId}-${github.context.runNumber}`;
+}
+
+export function getRestoreKey(): string {
+  return `btmp-${github.context.runId}-`;
 }
 
 export async function saveCache(): Promise<void> {
   console.log('saving cache');
-  await cache.saveCache(getCachePaths(), cachePrimaryKey);
+  await cache.saveCache(getCachePaths(), getCacheKey());
 }
 
 export async function restoreCache(): Promise<void> {
   console.log('restoring cache');
-  let key = await cache.restoreCache(getCachePaths(), getCacheKey(), ['btmp-']);
-  if (key) cachePrimaryKey = key;
+  await cache.restoreCache(getCachePaths(), getCacheKey(), [getRestoreKey()]);
 }
 
 export async function approvePR() {
