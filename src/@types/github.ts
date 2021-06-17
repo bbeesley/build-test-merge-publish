@@ -12,4 +12,8 @@ export type CommitStatus =
   OCTOKIT_OPENAPI_TYPES['schemas']['simple-commit-status'];
 export type WorkflowRun = OCTOKIT_OPENAPI_TYPES['schemas']['workflow-run'];
 
-export type MergeMethod = 'merge' | 'squash' | 'rebase' | undefined;
+export enum MergeMethod {
+  Merge = 'MERGE',
+  Squash = 'SQUASH',
+  Rebase = 'REBASE',
+}

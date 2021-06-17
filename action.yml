@@ -20,6 +20,16 @@ inputs:
     description: Branch to release from
     required: false
     default: 'main'
+  merge-method:
+    description: Method to use to merge dependabot PRs
+    required: false
+    default: 'REBASE'
+  private-npm-registry:
+    description: Private registry to auth with for install/publish
+    required: false
+  private-npm-token:
+    description: Auth token to use with private npm registry
+    required: false
 runs:
   using: 'node12'
   main: 'dist/main.js'
