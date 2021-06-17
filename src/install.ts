@@ -2,7 +2,7 @@ import { getInput } from '@actions/core';
 import * as github from '@actions/github';
 import { PullRequestEvent } from '@octokit/webhooks-definitions/schema';
 
-import { loggedExec, saveCache } from './utils';
+import { loggedExec } from './utils';
 
 // eslint-disable-next-line import/prefer-default-export
 export async function install(): Promise<void> {
@@ -28,5 +28,4 @@ export async function install(): Promise<void> {
     const buildBin = buildCommandComponents.shift();
     if (buildBin) await loggedExec(buildBin, buildCommandComponents);
   }
-  await saveCache();
 }

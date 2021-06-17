@@ -35,7 +35,7 @@ export function getCachePaths(): string[] {
 }
 
 export function getCacheKey(): string {
-  return `btmp-pre-${github.context.runId}`;
+  return `btmp-pre-${github.context.runId}-${github.context.runNumber}`;
 }
 
 export async function saveCache(): Promise<void> {

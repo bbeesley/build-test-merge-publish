@@ -2,12 +2,12 @@ import { getInput } from '@actions/core';
 import * as github from '@actions/github';
 import { PushEvent } from '@octokit/webhooks-definitions/schema';
 
+import { approveAndMerge } from './approve-and-merge';
 import { install } from './install';
-import { loggedExec, restoreCache } from './utils';
+import { loggedExec } from './utils';
 
 async function main(): Promise<void> {
   await install();
-  await restoreCache();
   await loggedExec('npm', ['test']);
   if (github.context.eventName === 'push') {
     const mainBranch = getInput('main-branch');
@@ -19,6 +19,7 @@ async function main(): Promise<void> {
       await loggedExec(releaseBin, releaseCommandComponents);
     }
   }
+  await approveAndMerge();
 }
 
 main();
