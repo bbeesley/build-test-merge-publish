@@ -16,7 +16,7 @@ jobs:
       - uses: bbeesley/build-test-merge-publish@v0
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GH_TOKEN: ${{ secrets.GH_PA_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PA_TOKEN }}
   lint-commits:
     runs-on: ubuntu-latest
     if: ${{ (github.actor == 'dependabot[bot]' && github.event_name == 'pull_request_target') || (github.ref != 'refs/heads/master' && github.event_name == 'push') }}
