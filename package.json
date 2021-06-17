@@ -1,6 +1,6 @@
 {
   "name": "build-test-merge-publish",
-  "version": "0.0.0",
+  "version": "0.0.22",
   "description": "GitHub Actions workflow to build, test, merge, and publish npm packages",
   "main": "dist/main.js",
   "scripts": {
