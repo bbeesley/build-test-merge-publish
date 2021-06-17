@@ -1,6 +1,6 @@
 overwrite: true
 
-schema: src/generated/github-schema-loader.js
+schema: github-schema-loader.js
 
 documents:
   - src/queries/*.graphql
