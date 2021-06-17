@@ -1,11 +1,8 @@
 import { setFailed } from '@actions/core';
-import * as github from '@actions/github';
 
-import { approvePR, mergePR } from './utils';
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+async function post(): Promise<void> {}
 
-async function post(): Promise<void> {
-}
-
-post().catch(error => {
+post().catch((error) => {
   setFailed(error.message);
 });

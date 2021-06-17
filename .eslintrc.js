@@ -6,7 +6,7 @@ module.exports = {
     project: ['./tsconfig.json', './tsconfig.test.json'],
     tsconfigRootDir: __dirname,
   },
-  ignorePatterns: ['node_modules/', 'dist/', '.vscode/'],
+  ignorePatterns: ['node_modules/', 'dist/', '.vscode/', 'src/generated/'],
   rules: {
     'no-console': 'off',
     'no-undef': 'error',

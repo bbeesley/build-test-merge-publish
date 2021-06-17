@@ -735,7 +735,7 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @actions/core */ "./node_modules/@actions/core/lib/core.js");
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
-
+ // eslint-disable-next-line @typescript-eslint/no-empty-function
 
 async function pre() {}
 

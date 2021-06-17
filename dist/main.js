@@ -11921,7 +11921,7 @@ gql["default"] = gql;
 
 
 
-async function loggedExec(commandLine, args, options) {
+async function loggedExec(commandLine, args, options = {}) {
   let errors = '';
   const res = await (0,exec.exec)(commandLine, args, {
     listeners: {
@@ -11932,7 +11932,8 @@ async function loggedExec(commandLine, args, options) {
         errors += data.toString();
         console.error(data.toString());
       }
-    }
+    },
+    ...options
   });
   if (res > 0) throw new Error(`Failed to run operation ${errors}`);
 }
@@ -11972,9 +11973,9 @@ async function mergePR() {
   console.log('automerge response', JSON.stringify(res));
 }
 function isDependabot() {
-  const isDependabot = github.context.eventName === 'pull_request_target' && github.context.actor === 'dependabot[bot]';
-  if (isDependabot) console.log('detected dependabot PR');
-  return isDependabot;
+  const dependabot = github.context.eventName === 'pull_request_target' && github.context.actor === 'dependabot[bot]';
+  if (dependabot) console.log('detected dependabot PR');
+  return dependabot;
 }
 ;// CONCATENATED MODULE: ./src/approve-and-merge.ts
 

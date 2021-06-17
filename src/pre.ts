@@ -1,12 +1,8 @@
-import { getInput, setFailed } from '@actions/core';
-import * as github from '@actions/github';
-import { PullRequestEvent } from '@octokit/webhooks-definitions/schema';
+import { setFailed } from '@actions/core';
 
-import { loggedExec } from './utils';
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+async function pre(): Promise<void> {}
 
-async function pre(): Promise<void> {
-}
-
-pre().catch(error => {
+pre().catch((error) => {
   setFailed(error.message);
 });

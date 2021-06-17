@@ -1,6 +1,9 @@
 name: build-test-merge-publish
 author: Bill Beesley <bill@beesley.dev>
 description: GitHub Actions workflow to build & test npm packages
+branding:
+  icon: box
+  color: blue
 inputs:
   install-command:
     description: Command to install package dependencies
@@ -17,9 +20,6 @@ inputs:
     description: Branch to release from
     required: false
     default: 'main'
-  cache-paths:
-    description: Comma separated list of paths to cache
-    required: false
 runs:
   using: 'node12'
   pre: 'dist/pre.js'

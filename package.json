@@ -4,7 +4,7 @@
   "description": "GitHub Actions workflow to build, test, merge, and publish npm packages",
   "main": "dist/main.js",
   "scripts": {
-    "lint": "eslint --ext '.ts' --ext '.js' .",
+    "lint": "tsc --noEmit && eslint --ext '.ts' --ext '.js' .",
     "pretest": "npm run lint",
     "test": "echo 'No tests yet'",
     "codegen": "graphql-codegen --config codegen.yml",
@@ -84,7 +84,9 @@
     "webpack-cli": "^4.7.2"
   },
   "release": {
-    "branch": "master",
+    "branches": [
+      "main"
+    ],
     "plugins": [
       [
         "@semantic-release/commit-analyzer",
@@ -101,8 +103,7 @@
             {
               "type": "chore",
               "scope": "deps*",
-              "release": "patch",
-              "subject": "[security]*"
+              "release": "patch"
             }
           ]
         }
@@ -122,7 +123,8 @@
             "package.json",
             "CHANGELOG.md",
             "README.md",
-            "dist/**"
+            "dist/**",
+            "src/generated/graphql.ts"
           ]
         }
       ]

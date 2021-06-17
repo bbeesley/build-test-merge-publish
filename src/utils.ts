@@ -1,13 +1,15 @@
-import * as cache from '@actions/cache';
-import { getInput } from '@actions/core';
 import { exec, ExecOptions } from '@actions/exec';
 import * as github from '@actions/github';
 import { PullRequestEvent } from '@octokit/webhooks-definitions/schema';
-import { PullRequest, MergeMethod } from './@types';
 
+import { PullRequest } from './@types';
 import { EnableAutoMerge } from './generated/graphql';
 
-export async function loggedExec(commandLine: string, args?: string[], options?: ExecOptions): Promise<void> {
+export async function loggedExec(
+  commandLine: string,
+  args?: string[],
+  options: ExecOptions = {}
+): Promise<void> {
   let errors = '';
   const res = await exec(commandLine, args, {
     listeners: {
@@ -17,8 +19,9 @@ export async function loggedExec(commandLine: string, args?: string[], options?:
       stderr: (data: Buffer) => {
         errors += data.toString();
         console.error(data.toString());
-      }
-    }
+      },
+    },
+    ...options,
   });
   if (res > 0) throw new Error(`Failed to run operation ${errors}`);
 }
@@ -52,19 +55,20 @@ export async function mergePR() {
   const ok = github.getOctokit(
     process.env.GITHUB_TOKEN ?? (process.env.GH_TOKEN as string)
   );
-  const query = EnableAutoMerge.loc!.source!.body
+  const query = EnableAutoMerge.loc!.source!.body;
   const pullRequest = await getPR();
   const res = await ok.graphql({
-      query,
-      pullRequestId: pullRequest.node_id,
-      mergeMethod: 'REBASE',
-    });
+    query,
+    pullRequestId: pullRequest.node_id,
+    mergeMethod: 'REBASE',
+  });
   console.log('automerge response', JSON.stringify(res));
 }
 
 export function isDependabot(): boolean {
-  const isDependabot = github.context.eventName === 'pull_request_target' &&
+  const dependabot =
+    github.context.eventName === 'pull_request_target' &&
     github.context.actor === 'dependabot[bot]';
-  if (isDependabot) console.log('detected dependabot PR');
-    return isDependabot;
+  if (dependabot) console.log('detected dependabot PR');
+  return dependabot;
 }
