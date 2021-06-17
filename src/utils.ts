@@ -65,10 +65,6 @@ export async function mergePR() {
 export function isDependabot(): boolean {
   const isDependabot = github.context.eventName === 'pull_request_target' &&
     github.context.actor === 'dependabot[bot]';
-  console.log('action data', {
-    actor: github.context.actor,
-    event: github.context.eventName,
-  })
   if (isDependabot) console.log('detected dependabot PR');
     return isDependabot;
 }
