@@ -115,7 +115,8 @@
           "assets": [
             "package.json",
             "CHANGELOG.md",
-            "README.md"
+            "README.md",
+            "dist/**"
           ]
         }
       ]

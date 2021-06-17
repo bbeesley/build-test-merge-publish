@@ -2,9 +2,11 @@ import { getInput } from '@actions/core';
 import * as github from '@actions/github';
 import { PushEvent } from '@octokit/webhooks-definitions/schema';
 
+import { install } from './install';
 import { loggedExec, restoreCache } from './utils';
 
 async function main(): Promise<void> {
+  await install();
   await restoreCache();
   await loggedExec('npm', ['test']);
   if (github.context.eventName === 'push') {
