@@ -7,21 +7,24 @@ import { install } from './install';
 import { loggedExec } from './utils';
 
 async function main(): Promise<void> {
-  await install();
-  await loggedExec('npm', ['test']);
-  if (github.context.eventName === 'push') {
-    const mainBranch = getInput('main-branch');
-    const pushPayload = github.context.payload as PushEvent;
-    if (pushPayload.ref.split('/').pop() === mainBranch) {
-      const releaseCommand = getInput('release-command');
-      const releaseCommandComponents = releaseCommand.split(' ');
-      const releaseBin = releaseCommandComponents.shift() || 'npm';
-      await loggedExec(releaseBin, releaseCommandComponents);
+  try {
+    await install();
+    await loggedExec('npm', ['test']);
+    if (github.context.eventName === 'push') {
+      const mainBranch = getInput('main-branch');
+      const pushPayload = github.context.payload as PushEvent;
+      if (pushPayload.ref.split('/').pop() === mainBranch) {
+        const releaseCommand = getInput('release-command');
+        const releaseCommandComponents = releaseCommand.split(' ');
+        const releaseBin = releaseCommandComponents.shift() || 'npm';
+        await loggedExec(releaseBin, releaseCommandComponents);
+      }
     }
+    await approveAndMerge();
+  } catch (error) {
+    console.error(error);
+    setFailed(error.message);
   }
-  await approveAndMerge();
 }
 
-main().catch(error => {
-  setFailed(error.message);
-});
+main();
