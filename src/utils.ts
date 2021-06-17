@@ -12,6 +12,7 @@ export async function loggedExec(
 ): Promise<void> {
   let errors = '';
   const res = await exec(commandLine, args, {
+    env: { ...(process.env as Record<string, string>) },
     listeners: {
       stdout: (data: Buffer) => {
         console.log(data.toString());

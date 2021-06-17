@@ -11924,6 +11924,8 @@ gql["default"] = gql;
 async function loggedExec(commandLine, args, options = {}) {
   let errors = '';
   const res = await (0,exec.exec)(commandLine, args, {
+    env: { ...process.env
+    },
     listeners: {
       stdout: data => {
         console.log(data.toString());
