@@ -25,7 +25,7 @@ const defaultCachePaths = ['node_modules', 'packages/*/node_modules/', 'dist', '
 function getCachePaths() {
   var _getInput;
 
-  const cachePaths = ((_getInput = (0, _core.getInput)('cachePaths')) !== null && _getInput !== void 0 ? _getInput : '').split(',').filter(e => e.length > 0);
+  const cachePaths = ((_getInput = (0, _core.getInput)('cache-paths')) !== null && _getInput !== void 0 ? _getInput : '').split(',').filter(e => e.length > 0);
   return [...defaultCachePaths, ...cachePaths];
 }
 

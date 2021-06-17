@@ -15,13 +15,13 @@ async function pre(): Promise<void> {
     await exec('git', ['checkout', ref]);
   }
   // install deps
-  const installCommand = getInput('installCommand');
+  const installCommand = getInput('install-command');
   const installCommandComponents = installCommand.split(' ');
   const installBin = installCommandComponents.shift() || 'npm';
   await exec(installBin, installCommandComponents);
 
   // build (if needed)
-  const buildCommand = getInput('buildCommand');
+  const buildCommand = getInput('build-command');
   if (buildCommand && buildCommand.length > 0) {
     const buildCommandComponents = buildCommand.split(' ');
     const buildBin = buildCommandComponents.shift();

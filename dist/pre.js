@@ -23,12 +23,12 @@ async function pre() {
   } // install deps
 
 
-  const installCommand = (0, _core.getInput)('installCommand');
+  const installCommand = (0, _core.getInput)('install-command');
   const installCommandComponents = installCommand.split(' ');
   const installBin = installCommandComponents.shift() || 'npm';
   await (0, _exec.exec)(installBin, installCommandComponents); // build (if needed)
 
-  const buildCommand = (0, _core.getInput)('buildCommand');
+  const buildCommand = (0, _core.getInput)('build-command');
 
   if (buildCommand && buildCommand.length > 0) {
     const buildCommandComponents = buildCommand.split(' ');

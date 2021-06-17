@@ -17,11 +17,11 @@ async function main() {
   await (0, _exec.exec)('npm', ['test']);
 
   if (github.context.eventName === 'push') {
-    const mainBranch = (0, _core.getInput)('mainBranch');
+    const mainBranch = (0, _core.getInput)('main-branch');
     const pushPayload = github.context.payload;
 
     if (pushPayload.ref.split('/').pop() === mainBranch) {
-      const releaseCommand = (0, _core.getInput)('releaseCommand');
+      const releaseCommand = (0, _core.getInput)('release-command');
       const releaseCommandComponents = releaseCommand.split(' ');
       const releaseBin = releaseCommandComponents.shift() || 'npm';
       await (0, _exec.exec)(releaseBin, releaseCommandComponents);

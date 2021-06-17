@@ -2,22 +2,22 @@ name: build-test-merge-publish
 author: Bill Beesley <bill@beesley.dev>
 description: GitHub Actions workflow to build & test npm packages
 inputs:
-  installCommand:
+  install-command:
     description: Command to install package dependencies
     required: false
     default: npm ci
-  buildCommand:
+  build-command:
     description: Command to run to build the package
     required: false
-  publishCommand:
+  publish-command:
     description: Command to publish the package
     required: false
     default: npm run release
-  mainBranch:
+  main-branch:
     description: Branch to release from
     required: false
     default: 'main'
-  cachePaths:
+  cache-paths:
     description: Comma separated list of paths to cache
     required: false
 runs:

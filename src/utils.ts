@@ -11,7 +11,7 @@ const defaultCachePaths = [
 ];
 
 export function getCachePaths(): string[] {
-  const cachePaths = (getInput('cachePaths') ?? '')
+  const cachePaths = (getInput('cache-paths') ?? '')
     .split(',')
     .filter((e) => e.length > 0);
   return [...defaultCachePaths, ...cachePaths];
