@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  mode: 'production', // "production" | "development" - Chosen mode tells webpack to use its built-in optimizations accordingly. Production will result in less readable output
+  mode: 'development', // "production" | "development" - Chosen mode tells webpack to use its built-in optimizations accordingly. Production will result in less readable output
   entry: {
     pre: './src/pre.ts',
     post: './src/post.ts',
