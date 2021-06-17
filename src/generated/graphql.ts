@@ -31662,9 +31662,9 @@ export type IResolvers<ContextType = any> = Resolvers<ContextType>;
 
 
 export const EnableAutoMerge = gql`
-    mutation EnableAutoMerge($pullRequestId: ID!, $commitHeadline: String, $commitBody: String, $mergeMethod: PullRequestMergeMethod!) {
+    mutation EnableAutoMerge($pullRequestId: ID!, $mergeMethod: PullRequestMergeMethod!) {
   enablePullRequestAutoMerge(
-    input: {pullRequestId: $pullRequestId, commitHeadline: $commitHeadline, commitBody: $commitBody, mergeMethod: $mergeMethod}
+    input: {pullRequestId: $pullRequestId, mergeMethod: $mergeMethod}
   ) {
     pullRequest {
       autoMergeRequest {
@@ -31679,8 +31679,6 @@ export const EnableAutoMerge = gql`
     `;
 export type EnableAutoMergeMutationVariables = Exact<{
   pullRequestId: Scalars['ID'];
-  commitHeadline?: Maybe<Scalars['String']>;
-  commitBody?: Maybe<Scalars['String']>;
   mergeMethod: PullRequestMergeMethod;
 }>;
 

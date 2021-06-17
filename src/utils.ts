@@ -54,11 +54,12 @@ export async function mergePR() {
   );
   const query = EnableAutoMerge.loc!.source!.body
   const pullRequest = await getPR();
-  await ok.graphql({
+  const res = await ok.graphql({
       query,
       pullRequestId: pullRequest.node_id,
       mergeMethod: 'REBASE',
     });
+  console.log('automerge response', JSON.stringify(res));
 }
 
 export function isDependabot(): boolean {
