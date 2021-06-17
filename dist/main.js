@@ -11967,7 +11967,7 @@ async function mergePR() {
   await ok.graphql({
     query,
     pullRequestId: pullRequest.node_id,
-    mergeMethod: 'rebase'
+    mergeMethod: 'REBASE'
   });
 }
 function isDependabot() {
