@@ -37,7 +37,7 @@ export function getCachePaths(): string[] {
 }
 
 export function getCacheKey(): string {
-  return `btmp-pre-${github.context.runId}`;
+  return `btmp-${github.context.runId}`;
 }
 
 export async function saveCache(): Promise<void> {
@@ -47,7 +47,7 @@ export async function saveCache(): Promise<void> {
 
 export async function restoreCache(): Promise<void> {
   console.log('restoring cache');
-  let key = await cache.restoreCache(getCachePaths(), getCacheKey());
+  let key = await cache.restoreCache(getCachePaths(), getCacheKey(), ['btmp-']);
   if (key) cachePrimaryKey = key;
 }
 

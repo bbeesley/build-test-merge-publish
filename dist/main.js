@@ -70079,7 +70079,7 @@ function getCachePaths() {
   return [...defaultCachePaths, ...cachePaths];
 }
 function getCacheKey() {
-  return `btmp-pre-${github.context.runId}`;
+  return `btmp-${github.context.runId}`;
 }
 async function saveCache() {
   console.log('saving cache');
@@ -70087,7 +70087,7 @@ async function saveCache() {
 }
 async function restoreCache() {
   console.log('restoring cache');
-  let key = await cache.restoreCache(getCachePaths(), getCacheKey());
+  let key = await cache.restoreCache(getCachePaths(), getCacheKey(), ['btmp-']);
   if (key) cachePrimaryKey = key;
 }
 async function approvePR() {
