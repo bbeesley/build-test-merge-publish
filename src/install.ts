@@ -2,7 +2,7 @@ import { getInput } from '@actions/core';
 import * as github from '@actions/github';
 import { PullRequestEvent } from '@octokit/webhooks-definitions/schema';
 
-import { isDependabot, loggedExec } from './utils';
+import { isDependabot, loggedExec, npmAuth } from './utils';
 
 export async function install(): Promise<void> {
   // for dependabot PRs, check out PR head before install
@@ -13,6 +13,9 @@ export async function install(): Promise<void> {
     await loggedExec('git', ['fetch']);
     await loggedExec('git', ['checkout', ref]);
   }
+
+  // auth if needed
+  await npmAuth();
 
   // install deps
   const installCommand = getInput('install-command');

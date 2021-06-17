@@ -8086,7 +8086,7 @@ var __webpack_exports__ = {};
 (() => {
 "use strict";
 /*!**********************************!*\
-  !*** ./src/main.ts + 26 modules ***!
+  !*** ./src/main.ts + 28 modules ***!
   \**********************************/
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
@@ -8097,6 +8097,16 @@ var core = __webpack_require__("./node_modules/@actions/core/lib/core.js");
 var github = __webpack_require__("./node_modules/@actions/github/lib/github.js");
 // EXTERNAL MODULE: ./node_modules/@actions/exec/lib/exec.js
 var exec = __webpack_require__("./node_modules/@actions/exec/lib/exec.js");
+;// CONCATENATED MODULE: ./src/@types/github.ts
+let MergeMethod;
+
+(function (MergeMethod) {
+  MergeMethod["Merge"] = "MERGE";
+  MergeMethod["Squash"] = "SQUASH";
+  MergeMethod["Rebase"] = "REBASE";
+})(MergeMethod || (MergeMethod = {}));
+;// CONCATENATED MODULE: ./src/@types/index.ts
+
 ;// CONCATENATED MODULE: ./node_modules/graphql-tag/node_modules/tslib/tslib.es6.js
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -11921,6 +11931,8 @@ gql["default"] = gql;
 
 
 
+
+
 async function loggedExec(commandLine, args, options = {}) {
   let errors = '';
   const res = await (0,exec.exec)(commandLine, args, {
@@ -11939,6 +11951,23 @@ async function loggedExec(commandLine, args, options = {}) {
   });
   if (res > 0) throw new Error(`Failed to run operation ${errors}`);
 }
+async function npmAuth() {
+  const registry = (0,core.getInput)('private-npm-registry');
+  const token = (0,core.getInput)('private-npm-token');
+
+  if (token && registry) {
+    (0,core.setSecret)(token);
+    console.log('authenticating with registry', registry);
+    await (0,exec.exec)('echo', [`//${registry}/:_authToken=${token}`, '>>', '.npmrc']);
+  }
+}
+
+function getMergeMethod() {
+  const mergeMethod = (0,core.getInput)('merge-method');
+  const result = Object.values(MergeMethod).find(m => m.toLowerCase() === mergeMethod.toLowerCase());
+  return result !== null && result !== void 0 ? result : MergeMethod.Rebase;
+}
+
 async function getPR() {
   var _process$env$GITHUB_T;
 
@@ -11970,7 +11999,7 @@ async function mergePR() {
   const res = await ok.graphql({
     query,
     pullRequestId: pullRequest.node_id,
-    mergeMethod: 'REBASE'
+    mergeMethod: getMergeMethod()
   });
   console.log('automerge response', JSON.stringify(res));
 }
@@ -12002,8 +12031,10 @@ async function install() {
     console.log(`checking out ref: ${ref}`);
     await loggedExec('git', ['fetch']);
     await loggedExec('git', ['checkout', ref]);
-  } // install deps
+  } // auth if needed
 
+
+  await npmAuth(); // install deps
 
   const installCommand = (0,core.getInput)('install-command');
   const installCommandComponents = installCommand.split(' ');

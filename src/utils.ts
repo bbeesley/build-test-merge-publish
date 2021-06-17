@@ -1,8 +1,9 @@
+import { getInput, setSecret } from '@actions/core';
 import { exec, ExecOptions } from '@actions/exec';
 import * as github from '@actions/github';
 import { PullRequestEvent } from '@octokit/webhooks-definitions/schema';
 
-import { PullRequest } from './@types';
+import { MergeMethod, PullRequest } from './@types';
 import { EnableAutoMerge } from './generated/graphql';
 
 export async function loggedExec(
@@ -25,6 +26,24 @@ export async function loggedExec(
     ...options,
   });
   if (res > 0) throw new Error(`Failed to run operation ${errors}`);
+}
+
+export async function npmAuth(): Promise<void> {
+  const registry = getInput('private-npm-registry');
+  const token = getInput('private-npm-token');
+  if (token && registry) {
+    setSecret(token);
+    console.log('authenticating with registry', registry);
+    await exec('echo', [`//${registry}/:_authToken=${token}`, '>>', '.npmrc']);
+  }
+}
+
+function getMergeMethod(): MergeMethod {
+  const mergeMethod = getInput('merge-method');
+  const result = Object.values(MergeMethod).find(
+    (m) => m.toLowerCase() === mergeMethod.toLowerCase()
+  );
+  return result ?? MergeMethod.Rebase;
 }
 
 export async function getPR(): Promise<PullRequest> {
@@ -61,7 +80,7 @@ export async function mergePR() {
   const res = await ok.graphql({
     query,
     pullRequestId: pullRequest.node_id,
-    mergeMethod: 'REBASE',
+    mergeMethod: getMergeMethod(),
   });
   console.log('automerge response', JSON.stringify(res));
 }
