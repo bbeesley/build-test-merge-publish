@@ -1,14 +1,8 @@
-import * as github from '@actions/github';
+import { approvePR, isDependabot, mergePR } from './utils';
 
-import { approvePR, mergePR } from './utils';
-
-// eslint-disable-next-line import/prefer-default-export
 export async function approveAndMerge(): Promise<void> {
-  if (
-    github.context.eventName === 'pull_request_target' &&
-    github.context.actor === 'dependabot[bot]'
-  ) {
-    console.log('detected dependabot PR, auto approving and merging');
+  if (isDependabot()) {
+    console.log('auto approving and merging');
     await approvePR();
     await mergePR();
   }

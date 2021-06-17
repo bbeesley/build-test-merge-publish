@@ -70114,13 +70114,16 @@ async function mergePR() {
     pull_number: requestPayload.pull_request.number
   });
 }
+function isDependabot() {
+  const isDependabot = github.context.eventName === 'pull_request_target' && github.context.actor === 'dependabot[bot]';
+  if (isDependabot) console.log('detected dependabot PR');
+  return isDependabot;
+}
 ;// CONCATENATED MODULE: ./src/approve-and-merge.ts
 
- // eslint-disable-next-line import/prefer-default-export
-
 async function approveAndMerge() {
-  if (github.context.eventName === 'pull_request_target' && github.context.actor === 'dependabot[bot]') {
-    console.log('detected dependabot PR, auto approving and merging');
+  if (isDependabot()) {
+    console.log('auto approving and merging');
     await approvePR();
     await mergePR();
   }
@@ -70128,14 +70131,12 @@ async function approveAndMerge() {
 ;// CONCATENATED MODULE: ./src/install.ts
 
 
- // eslint-disable-next-line import/prefer-default-export
 
 async function install() {
-  await restoreCache();
+  await restoreCache(); // for dependabot PRs, check out PR head before install
 
-  if (github.context.eventName === 'pull_request_target' && github.context.actor === 'dependabot[bot]') {
+  if (isDependabot()) {
     const requestPayload = github.context.payload;
-    console.log('detected dependabot PR', JSON.stringify(requestPayload, null, 2));
     const {
       ref
     } = requestPayload.pull_request.head;
@@ -70148,7 +70149,17 @@ async function install() {
   const installCommand = (0,core.getInput)('install-command');
   const installCommandComponents = installCommand.split(' ');
   const installBin = installCommandComponents.shift() || 'npm';
-  await loggedExec(installBin, installCommandComponents); // build (if needed)
+  await loggedExec(installBin, installCommandComponents); // for dependabot PRs, check out base for build/test
+
+  if (isDependabot()) {
+    const requestPayload = github.context.payload;
+    const {
+      ref
+    } = requestPayload.pull_request.base;
+    console.log(`checking out ref: ${ref}`);
+    await loggedExec('git', ['checkout', ref]);
+  } // build (if needed)
+
 
   const buildCommand = (0,core.getInput)('build-command');
 
