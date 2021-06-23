@@ -436,6 +436,8 @@ export type App = Node & {
   /** The description of the app. */
   description?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  /** The IP addresses of the app. */
+  ipAllowListEntries: IpAllowListEntryConnection;
   /** The hex color code, without the leading '#', for the logo background. */
   logoBackgroundColor: Scalars['String'];
   /** A URL pointing to the app's logo. */
@@ -448,6 +450,16 @@ export type App = Node & {
   updatedAt: Scalars['DateTime'];
   /** The URL to the app's homepage. */
   url: Scalars['URI'];
+};
+
+
+/** A GitHub App. */
+export type AppIpAllowListEntriesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<IpAllowListEntryOrder>;
 };
 
 
@@ -6375,7 +6387,7 @@ export enum IpAllowListForInstalledAppsEnabledSettingValue {
 }
 
 /** Types that can own an IP allow list. */
-export type IpAllowListOwner = Enterprise | Organization;
+export type IpAllowListOwner = App | Enterprise | Organization;
 
 /** An Issue is a place to discuss ideas, enhancements, tasks, and bugs for a project. */
 export type Issue = Node & Assignable & Closable & Comment & Updatable & UpdatableComment & Labelable & Lockable & Reactable & RepositoryNode & Subscribable & UniformResourceLocatable & {
@@ -21628,7 +21640,7 @@ export type ResolversTypes = {
   IpAllowListEntryOrder: IpAllowListEntryOrder;
   IpAllowListEntryOrderField: IpAllowListEntryOrderField;
   IpAllowListForInstalledAppsEnabledSettingValue: IpAllowListForInstalledAppsEnabledSettingValue;
-  IpAllowListOwner: ResolversTypes['Enterprise'] | ResolversTypes['Organization'];
+  IpAllowListOwner: ResolversTypes['App'] | ResolversTypes['Enterprise'] | ResolversTypes['Organization'];
   Issue: ResolverTypeWrapper<Issue>;
   IssueComment: ResolverTypeWrapper<IssueComment>;
   IssueCommentConnection: ResolverTypeWrapper<IssueCommentConnection>;
@@ -22673,7 +22685,7 @@ export type ResolversParentTypes = {
   IpAllowListEntryConnection: IpAllowListEntryConnection;
   IpAllowListEntryEdge: IpAllowListEntryEdge;
   IpAllowListEntryOrder: IpAllowListEntryOrder;
-  IpAllowListOwner: ResolversParentTypes['Enterprise'] | ResolversParentTypes['Organization'];
+  IpAllowListOwner: ResolversParentTypes['App'] | ResolversParentTypes['Enterprise'] | ResolversParentTypes['Organization'];
   Issue: Issue;
   IssueComment: IssueComment;
   IssueCommentConnection: IssueCommentConnection;
@@ -23382,6 +23394,7 @@ export type AppResolvers<ContextType = any, ParentType extends ResolversParentTy
   databaseId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  ipAllowListEntries?: Resolver<ResolversTypes['IpAllowListEntryConnection'], ParentType, ContextType, RequireFields<AppIpAllowListEntriesArgs, 'orderBy'>>;
   logoBackgroundColor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   logoUrl?: Resolver<ResolversTypes['URI'], ParentType, ContextType, RequireFields<AppLogoUrlArgs, never>>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -25633,7 +25646,7 @@ export type IpAllowListEntryEdgeResolvers<ContextType = any, ParentType extends 
 };
 
 export type IpAllowListOwnerResolvers<ContextType = any, ParentType extends ResolversParentTypes['IpAllowListOwner'] = ResolversParentTypes['IpAllowListOwner']> = {
-  __resolveType: TypeResolveFn<'Enterprise' | 'Organization', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'App' | 'Enterprise' | 'Organization', ParentType, ContextType>;
 };
 
 export type IssueResolvers<ContextType = any, ParentType extends ResolversParentTypes['Issue'] = ResolversParentTypes['Issue']> = {
