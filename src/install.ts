@@ -2,11 +2,11 @@ import { getInput } from '@actions/core';
 import * as github from '@actions/github';
 import { PullRequestEvent } from '@octokit/webhooks-definitions/schema';
 
-import { isDependabot, loggedExec, npmAuth } from './utils';
+import { isDependabotPRTarget, loggedExec, npmAuth } from './utils';
 
 export async function install(): Promise<void> {
   // for dependabot PRs, check out PR head before install
-  if (isDependabot()) {
+  if (isDependabotPRTarget()) {
     const requestPayload = github.context.payload as PullRequestEvent;
     const { ref } = requestPayload.pull_request.head;
     console.log(`checking out ref: ${ref}`);
@@ -24,7 +24,7 @@ export async function install(): Promise<void> {
   await loggedExec(installBin, installCommandComponents);
 
   // for dependabot PRs, check out base for build/test
-  if (isDependabot()) {
+  if (isDependabotPRTarget()) {
     const requestPayload = github.context.payload as PullRequestEvent;
     const { ref } = requestPayload.pull_request.base;
     console.log(`checking out ref: ${ref}`);

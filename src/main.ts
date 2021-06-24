@@ -4,10 +4,11 @@ import { PushEvent } from '@octokit/webhooks-definitions/schema';
 
 import { approveAndMerge } from './approve-and-merge';
 import { install } from './install';
-import { loggedExec } from './utils';
+import { isDependabot, isDependabotPRTarget, loggedExec } from './utils';
 
 async function main(): Promise<void> {
   try {
+    if (isDependabot() && !isDependabotPRTarget()) return;
     await install();
     await loggedExec('npm', ['test']);
     if (github.context.eventName === 'push') {

@@ -12005,7 +12005,12 @@ async function mergePR() {
   console.log('automerge response', JSON.stringify(res));
 }
 function isDependabot() {
-  const dependabot = github.context.eventName === 'pull_request_target' && github.context.actor === 'dependabot[bot]';
+  const dependabot = github.context.actor === 'dependabot[bot]';
+  if (dependabot) console.log('detected dependabot actor');
+  return dependabot;
+}
+function isDependabotPRTarget() {
+  const dependabot = github.context.eventName === 'pull_request_target' && isDependabot();
   if (dependabot) console.log('detected dependabot PR');
   return dependabot;
 }
@@ -12024,7 +12029,7 @@ async function approveAndMerge() {
 
 async function install() {
   // for dependabot PRs, check out PR head before install
-  if (isDependabot()) {
+  if (isDependabotPRTarget()) {
     const requestPayload = github.context.payload;
     const {
       ref
@@ -12042,7 +12047,7 @@ async function install() {
   const installBin = installCommandComponents.shift() || 'npm';
   await loggedExec(installBin, installCommandComponents); // for dependabot PRs, check out base for build/test
 
-  if (isDependabot()) {
+  if (isDependabotPRTarget()) {
     const requestPayload = github.context.payload;
     const {
       ref
@@ -12069,6 +12074,7 @@ async function install() {
 
 async function main() {
   try {
+    if (isDependabot() && !isDependabotPRTarget()) return;
     await install();
     await loggedExec('npm', ['test']);
 
