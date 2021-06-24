@@ -1,3 +1,15 @@
+## [1.0.19](https://github.com/bbeesley/build-test-merge-publish/compare/v1.0.18...v1.0.19) (2021-06-24)
+
+
+### Bug Fixes
+
+* **auth:** cp npmrc to home directory ([643a99f](https://github.com/bbeesley/build-test-merge-publish/commit/643a99fc9f311c8a65df7ecb8e8e542848277258))
+* **auth:** cp npmrc to home directory ([59011b1](https://github.com/bbeesley/build-test-merge-publish/commit/59011b1d0f94a7e031050209c9875e9c0e178025))
+* **auth:** cp npmrc to home directory ([3ac4fe3](https://github.com/bbeesley/build-test-merge-publish/commit/3ac4fe3572acdcc89684af4cb08ccf290e6c5b7b))
+* **auth:** cp npmrc to home directory ([088c849](https://github.com/bbeesley/build-test-merge-publish/commit/088c84974bc066b5b24ea9c0eaed1844274fad6e))
+* **auth:** cp npmrc to home directory ([a0fd2c3](https://github.com/bbeesley/build-test-merge-publish/commit/a0fd2c322465bcf2bbadabdb63acd32bfa63bc6a))
+* **auth:** cp npmrc to home directory ([18316ae](https://github.com/bbeesley/build-test-merge-publish/commit/18316ae8108e1adc9bf2e2019e87ff06a0859dbe))
+
 ## [1.0.18](https://github.com/bbeesley/build-test-merge-publish/compare/v1.0.17...v1.0.18) (2021-06-23)
 
 ## [1.0.17](https://github.com/bbeesley/build-test-merge-publish/compare/v1.0.16...v1.0.17) (2021-06-23)
