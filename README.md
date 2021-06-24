@@ -1,3 +1,5 @@
+[![test-and-publish](https://github.com/bbeesley/build-test-merge-publish/actions/workflows/test-and-publish.yml/badge.svg)](https://github.com/bbeesley/build-test-merge-publish/actions/workflows/test-and-publish.yml)
+
 # build-test-merge-publish
 
 An all in one GitHub Action to install, build, test, and publish npm modules. Supports automatic approval & merging for dependabot PRs. It should be set to run on push events, as well as pull_request_target events (to ensure dependabot PRs can be tested and approved).
