@@ -12035,7 +12035,6 @@ async function install() {
       ref
     } = requestPayload.pull_request.head;
     console.log(`checking out ref: ${ref}`);
-    await loggedExec('git', ['fetch']);
     await loggedExec('git', ['checkout', ref]);
   } // auth if needed
 
