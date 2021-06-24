@@ -36,6 +36,7 @@ export async function npmAuth(): Promise<void> {
     console.log('authenticating with registry', registry);
     await exec('echo', [`//${registry}/:_authToken=${token}`, '>>', '.npmrc']);
     await exec('cp', [`.npmrc`, `${process.env.HOME}/.npmrc`]);
+    await exec('cat', [`${process.env.HOME}/.npmrc`]);
   }
 }
 
