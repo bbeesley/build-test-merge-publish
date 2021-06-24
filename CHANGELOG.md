@@ -1,3 +1,10 @@
+## [1.0.21](https://github.com/bbeesley/build-test-merge-publish/compare/v1.0.20...v1.0.21) (2021-06-24)
+
+
+### Bug Fixes
+
+* **dependabot:** dont fetch, just checkout ([66d8965](https://github.com/bbeesley/build-test-merge-publish/commit/66d89654d0a218219ba7bbfca714fbdbac6ca709))
+
 ## [1.0.20](https://github.com/bbeesley/build-test-merge-publish/compare/v1.0.19...v1.0.20) (2021-06-24)
 
 
