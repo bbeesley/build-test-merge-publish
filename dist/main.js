@@ -11962,7 +11962,7 @@ async function npmAuth() {
   if (token && registry) {
     (0,core.setSecret)(token);
     console.log('authenticating with registry', registry);
-    await (0,exec.exec)('echo', [`//${registry}/:_authToken=${token}`, '>>', '.npmrc']);
+    await (0,exec.exec)(`/bin/bash -c "echo //${registry}/:_authToken=${token} >> .npmrc"`);
     await (0,exec.exec)('cp', [`.npmrc`, `${process.env.HOME}/.npmrc`]);
     await (0,exec.exec)('cat', [`${process.env.HOME}/.npmrc`]);
   }
