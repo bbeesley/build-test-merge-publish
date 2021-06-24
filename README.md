@@ -15,6 +15,8 @@ This is a single workflow step to perform a number of common CI actions without 
 * Enable Auto Merge - (Optional) If the action is triggered by a dependabot PR, automatically enable the auto merge option on the PR so that GitHub will merge when all pre requisites are satisfied
 * Publish - When a commit is pushed to the main branch and compile and test steps have completed, run an automated release (for example using semantic release)
 
+**IMPORTANT** - When using the workflow to auto approve and merge dependabot PRs, you must pass the `fetch-depth: 0` argument to the checkout action in your workflow, and you must have the workflow run on the `pull_request_target` event. This causes a full fetch of the repo, which lets this action use the package.json and package-lock.json from the dependabot branch to do the install of dependencies. Actions on a dependabot branch are not able to access secrets, so in order to use your secrets to build and merge dependabot PRs, we need to use the `pull_request_target` event, this runs on the main branch, but with full credentials. In order to run the tests and merge using secrets, but using the module updates dependabot has created, we detect whether the event is a dependabot `pull_request_target`, if it is, we check out the HEAD commit from the dependabot PR, run npm install, then flip back to the main branch before running the tests. This way we keep the secrets secure, but are still able to build and test dependabot PRs.
+
 ## Options
 
 | name                 | description                                       | required | default         |
