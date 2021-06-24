@@ -1,3 +1,10 @@
+## [1.0.20](https://github.com/bbeesley/build-test-merge-publish/compare/v1.0.19...v1.0.20) (2021-06-24)
+
+
+### Bug Fixes
+
+* **dependabot:** ignore non pr target events for dependabot actor ([98442a6](https://github.com/bbeesley/build-test-merge-publish/commit/98442a6fc91b0695ca9f40c8bd1ad293118233f6))
+
 ## [1.0.19](https://github.com/bbeesley/build-test-merge-publish/compare/v1.0.18...v1.0.19) (2021-06-24)
 
 
