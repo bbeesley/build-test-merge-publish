@@ -11943,12 +11943,8 @@ async function loggedExec(commandLine, args, options = {}) {
     env: { ...process.env
     },
     listeners: {
-      stdout: data => {
-        console.log(data.toString());
-      },
       stderr: data => {
         errors += data.toString();
-        console.error(data.toString());
       }
     },
     ...options
@@ -11964,7 +11960,6 @@ async function npmAuth() {
     console.log('authenticating with registry', registry);
     await (0,exec.exec)(`/bin/bash -c "echo //${registry}/:_authToken=${token} >> .npmrc"`);
     await (0,exec.exec)('cp', [`.npmrc`, `${process.env.HOME}/.npmrc`]);
-    await (0,exec.exec)('cat', [`${process.env.HOME}/.npmrc`]);
   }
 }
 

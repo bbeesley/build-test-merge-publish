@@ -15,12 +15,8 @@ export async function loggedExec(
   const res = await exec(commandLine, args, {
     env: { ...(process.env as Record<string, string>) },
     listeners: {
-      stdout: (data: Buffer) => {
-        console.log(data.toString());
-      },
       stderr: (data: Buffer) => {
         errors += data.toString();
-        console.error(data.toString());
       },
     },
     ...options,
@@ -38,7 +34,6 @@ export async function npmAuth(): Promise<void> {
       `/bin/bash -c "echo //${registry}/:_authToken=${token} >> .npmrc"`
     );
     await exec('cp', [`.npmrc`, `${process.env.HOME}/.npmrc`]);
-    await exec('cat', [`${process.env.HOME}/.npmrc`]);
   }
 }
 
