@@ -3710,15 +3710,15 @@ const DEFAULTS = {
 const endpoint = withDefaults(null, DEFAULTS);
 
 ;// CONCATENATED MODULE: external "stream"
-const external_stream_namespaceObject = require("stream");;
+const external_stream_namespaceObject = require("stream");
 // EXTERNAL MODULE: external "http"
 var external_http_ = __webpack_require__("http");
 ;// CONCATENATED MODULE: external "url"
-const external_url_namespaceObject = require("url");;
+const external_url_namespaceObject = require("url");
 // EXTERNAL MODULE: external "https"
 var external_https_ = __webpack_require__("https");
 ;// CONCATENATED MODULE: external "zlib"
-const external_zlib_namespaceObject = require("zlib");;
+const external_zlib_namespaceObject = require("zlib");
 ;// CONCATENATED MODULE: ./node_modules/node-fetch/lib/index.mjs
 
 
@@ -7877,7 +7877,7 @@ function wrappy(fn, cb) {
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("assert");;
+module.exports = require("assert");
 
 /***/ }),
 
@@ -7888,7 +7888,7 @@ module.exports = require("assert");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("child_process");;
+module.exports = require("child_process");
 
 /***/ }),
 
@@ -7899,7 +7899,7 @@ module.exports = require("child_process");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("events");;
+module.exports = require("events");
 
 /***/ }),
 
@@ -7910,7 +7910,7 @@ module.exports = require("events");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("fs");;
+module.exports = require("fs");
 
 /***/ }),
 
@@ -7921,7 +7921,7 @@ module.exports = require("fs");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("http");;
+module.exports = require("http");
 
 /***/ }),
 
@@ -7932,7 +7932,7 @@ module.exports = require("http");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("https");;
+module.exports = require("https");
 
 /***/ }),
 
@@ -7943,7 +7943,7 @@ module.exports = require("https");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("net");;
+module.exports = require("net");
 
 /***/ }),
 
@@ -7954,7 +7954,7 @@ module.exports = require("net");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("os");;
+module.exports = require("os");
 
 /***/ }),
 
@@ -7965,7 +7965,7 @@ module.exports = require("os");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("path");;
+module.exports = require("path");
 
 /***/ }),
 
@@ -7976,7 +7976,7 @@ module.exports = require("path");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("string_decoder");;
+module.exports = require("string_decoder");
 
 /***/ }),
 
@@ -7987,7 +7987,7 @@ module.exports = require("string_decoder");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("timers");;
+module.exports = require("timers");
 
 /***/ }),
 
@@ -7998,7 +7998,7 @@ module.exports = require("timers");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("tls");;
+module.exports = require("tls");
 
 /***/ }),
 
@@ -8009,7 +8009,7 @@ module.exports = require("tls");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("util");;
+module.exports = require("util");
 
 /***/ })
 
