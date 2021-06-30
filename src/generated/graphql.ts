@@ -17162,7 +17162,9 @@ export enum SecurityAdvisoryEcosystem {
   /** PHP packages hosted at packagist.org */
   Composer = 'COMPOSER',
   /** Go modules */
-  Go = 'GO'
+  Go = 'GO',
+  /** Applications, runtimes, operating systems and other kinds of software */
+  Other = 'OTHER'
 }
 
 /** An edge in a connection. */
