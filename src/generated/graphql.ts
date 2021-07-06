@@ -17149,20 +17149,20 @@ export type SecurityAdvisoryConnection = {
 
 /** The possible ecosystems of a security vulnerability's package. */
 export enum SecurityAdvisoryEcosystem {
-  /** Ruby gems hosted at RubyGems.org */
-  Rubygems = 'RUBYGEMS',
-  /** JavaScript packages hosted at npmjs.com */
-  Npm = 'NPM',
-  /** Python packages hosted at PyPI.org */
-  Pip = 'PIP',
-  /** Java artifacts hosted at the Maven central repository */
-  Maven = 'MAVEN',
-  /** .NET packages hosted at the NuGet Gallery */
-  Nuget = 'NUGET',
   /** PHP packages hosted at packagist.org */
   Composer = 'COMPOSER',
   /** Go modules */
   Go = 'GO',
+  /** Java artifacts hosted at the Maven central repository */
+  Maven = 'MAVEN',
+  /** JavaScript packages hosted at npmjs.com */
+  Npm = 'NPM',
+  /** .NET packages hosted at the NuGet Gallery */
+  Nuget = 'NUGET',
+  /** Python packages hosted at PyPI.org */
+  Pip = 'PIP',
+  /** Ruby gems hosted at RubyGems.org */
+  Rubygems = 'RUBYGEMS',
   /** Applications, runtimes, operating systems and other kinds of software */
   Other = 'OTHER'
 }
@@ -17573,7 +17573,7 @@ export type SponsorsTier = Node & {
   __typename?: 'SponsorsTier';
   /** SponsorsTier information only visible to users that can administer the associated Sponsors listing. */
   adminInfo?: Maybe<SponsorsTierAdminInfo>;
-  /** Get a different tier for this tier's maintainer that is at the same frequency as this tier but with a lesser cost. Returns the published tier with the monthly price closest to this tier's without going over. */
+  /** Get a different tier for this tier's maintainer that is at the same frequency as this tier but with an equal or lesser cost. Returns the published tier with the monthly price closest to this tier's without going over. */
   closestLesserValueTier?: Maybe<SponsorsTier>;
   /** Identifies the date and time when the object was created. */
   createdAt: Scalars['DateTime'];
