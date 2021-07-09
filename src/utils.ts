@@ -25,14 +25,22 @@ export async function loggedExec(
 }
 
 export async function npmAuth(): Promise<void> {
-  const registry = getInput('private-npm-registry');
-  const token = getInput('private-npm-token');
-  if (token && registry) {
-    setSecret(token);
-    console.log('authenticating with registry', registry);
-    await exec(
-      `/bin/bash -c "echo //${registry}/:_authToken=${token} >> .npmrc"`
-    );
+  const privateRegistry = getInput('private-npm-registry');
+  const privateRegistryToken = getInput('private-npm-token');
+  const npmToken = process.env.NPM_TOKEN;
+  if (npmToken || (privateRegistryToken && privateRegistry)) {
+    if (privateRegistryToken && privateRegistry) {
+      setSecret(privateRegistryToken);
+      console.log('authenticating with registry', privateRegistry);
+      await exec(
+        `/bin/bash -c "echo //${privateRegistry}/:_authToken=${privateRegistryToken} >> .npmrc"`
+      );
+    }
+    if (npmToken && npmToken.length > 0) {
+      await exec(
+        `/bin/bash -c "echo //registry.npmjs.org/:_authToken=${npmToken} >> .npmrc"`
+      );
+    }
     await exec('cp', [`.npmrc`, `${process.env.HOME}/.npmrc`]);
   }
 }

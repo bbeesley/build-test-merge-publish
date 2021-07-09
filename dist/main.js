@@ -11952,13 +11952,21 @@ async function loggedExec(commandLine, args, options = {}) {
   if (res > 0) throw new Error(`Failed to run operation ${errors}`);
 }
 async function npmAuth() {
-  const registry = (0,core.getInput)('private-npm-registry');
-  const token = (0,core.getInput)('private-npm-token');
+  const privateRegistry = (0,core.getInput)('private-npm-registry');
+  const privateRegistryToken = (0,core.getInput)('private-npm-token');
+  const npmToken = process.env.NPM_TOKEN;
 
-  if (token && registry) {
-    (0,core.setSecret)(token);
-    console.log('authenticating with registry', registry);
-    await (0,exec.exec)(`/bin/bash -c "echo //${registry}/:_authToken=${token} >> .npmrc"`);
+  if (npmToken || privateRegistryToken && privateRegistry) {
+    if (privateRegistryToken && privateRegistry) {
+      (0,core.setSecret)(privateRegistryToken);
+      console.log('authenticating with registry', privateRegistry);
+      await (0,exec.exec)(`/bin/bash -c "echo //${privateRegistry}/:_authToken=${privateRegistryToken} >> .npmrc"`);
+    }
+
+    if (npmToken && npmToken.length > 0) {
+      await (0,exec.exec)(`/bin/bash -c "echo //registry.npmjs.org/:_authToken=${npmToken} >> .npmrc"`);
+    }
+
     await (0,exec.exec)('cp', [`.npmrc`, `${process.env.HOME}/.npmrc`]);
   }
 }
