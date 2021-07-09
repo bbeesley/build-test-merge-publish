@@ -1,3 +1,10 @@
+## [1.0.51](https://github.com/bbeesley/build-test-merge-publish/compare/v1.0.50...v1.0.51) (2021-07-09)
+
+
+### Bug Fixes
+
+* **npm:** set npm token in npmrc ([329dc49](https://github.com/bbeesley/build-test-merge-publish/commit/329dc49106a55c1398bacdfb4aa1ef86a05a08f9))
+
 ## [1.0.50](https://github.com/bbeesley/build-test-merge-publish/compare/v1.0.49...v1.0.50) (2021-07-09)
 
 ## [1.0.49](https://github.com/bbeesley/build-test-merge-publish/compare/v1.0.48...v1.0.49) (2021-07-08)
