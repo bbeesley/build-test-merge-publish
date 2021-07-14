@@ -140,9 +140,7 @@ export function isDependabotPRTarget(): boolean {
 
 export function isAutoMergeCandidate(): boolean {
   const autoMergeUser = getInput('auto-merge-bot');
-  const shouldAutoMerge =
-    github.context.eventName === 'push' &&
-    github.context.actor === autoMergeUser;
+  const shouldAutoMerge = github.context.actor === autoMergeUser;
   if (shouldAutoMerge) console.log('detected auto merge PR candidate');
   if (shouldAutoMerge)
     console.log(
