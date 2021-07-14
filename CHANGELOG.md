@@ -1,3 +1,15 @@
+# [1.1.0](https://github.com/bbeesley/build-test-merge-publish/compare/v1.0.52...v1.1.0) (2021-07-14)
+
+
+### Bug Fixes
+
+* dont fail if unable to automerge ([51835c7](https://github.com/bbeesley/build-test-merge-publish/commit/51835c7eb9980c59d1a6d7cf584051eb2e5fd141))
+
+
+### Features
+
+* allow automerging PRs from bot user ([b74237d](https://github.com/bbeesley/build-test-merge-publish/commit/b74237ddbfece2ccd1c5b8fa21911e9a8e182843))
+
 ## [1.0.52](https://github.com/bbeesley/build-test-merge-publish/compare/v1.0.51...v1.0.52) (2021-07-13)
 
 ## [1.0.51](https://github.com/bbeesley/build-test-merge-publish/compare/v1.0.50...v1.0.51) (2021-07-09)
