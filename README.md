@@ -30,6 +30,7 @@ This is a single workflow step to perform a number of common CI actions without 
 | merge-method         | Method to use to merge dependabot PRs             | false    | REBASE          |
 | private-npm-registry | Private registry to auth with for install/publish | false    |                 |
 | private-npm-token    | Auth token to use with private npm registry       | false    |                 |
+| auto-merge-bot       | username of bot whose PRs should be auto merged   | false    |                 |
 
 
 ## Required Environment Variables
@@ -67,6 +68,7 @@ jobs:
           merge-method: REBASE
           private-npm-registry: npm.example.com
           private-npm-token: ${{ secrets.PRIVATE_NPM_TOKEN }}
+          auto-merge-bot: my-automation-bot
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PA_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
