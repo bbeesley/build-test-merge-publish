@@ -8,7 +8,11 @@ import {
 export async function approveAndMerge(): Promise<void> {
   if (isDependabotPRTarget() || isAutoMergeCandidate()) {
     console.log('auto approving and merging');
-    await approvePR();
-    await mergePR();
+    try {
+      await approvePR();
+      await mergePR();
+    } catch (err) {
+      console.log('unable to auto approve/merge PR', err.message);
+    }
   }
 }

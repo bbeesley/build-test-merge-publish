@@ -12065,6 +12065,7 @@ function isAutoMergeCandidate() {
   const autoMergeUser = (0,core.getInput)('auto-merge-bot');
   const shouldAutoMerge = github.context.eventName === 'push' && github.context.actor === autoMergeUser;
   if (shouldAutoMerge) console.log('detected auto merge PR candidate');
+  if (shouldAutoMerge) console.log(`actor: ${github.context.actor}, auto-merge-bot: ${autoMergeUser}`);
   return shouldAutoMerge;
 }
 ;// CONCATENATED MODULE: ./src/approve-and-merge.ts
@@ -12072,8 +12073,13 @@ function isAutoMergeCandidate() {
 async function approveAndMerge() {
   if (isDependabotPRTarget() || isAutoMergeCandidate()) {
     console.log('auto approving and merging');
-    await approvePR();
-    await mergePR();
+
+    try {
+      await approvePR();
+      await mergePR();
+    } catch (err) {
+      console.log('unable to auto approve/merge PR', err.message);
+    }
   }
 }
 ;// CONCATENATED MODULE: ./src/install.ts
