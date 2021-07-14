@@ -144,5 +144,9 @@ export function isAutoMergeCandidate(): boolean {
     github.context.eventName === 'push' &&
     github.context.actor === autoMergeUser;
   if (shouldAutoMerge) console.log('detected auto merge PR candidate');
+  if (shouldAutoMerge)
+    console.log(
+      `actor: ${github.context.actor}, auto-merge-bot: ${autoMergeUser}`
+    );
   return shouldAutoMerge;
 }
