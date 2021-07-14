@@ -11977,7 +11977,7 @@ function getMergeMethod() {
   return result !== null && result !== void 0 ? result : MergeMethod.Rebase;
 }
 
-async function getPR() {
+async function getPRByNumber() {
   var _process$env$GITHUB_T;
 
   const requestPayload = github.context.payload;
@@ -11987,30 +11987,69 @@ async function getPR() {
   });
   return res.data;
 }
-async function approvePR() {
+
+async function getPrByCommitRef(commitId) {
   var _process$env$GITHUB_T2;
 
+  const {
+    repo,
+    owner
+  } = github.context.repo;
   const ok = github.getOctokit((_process$env$GITHUB_T2 = process.env.GITHUB_TOKEN) !== null && _process$env$GITHUB_T2 !== void 0 ? _process$env$GITHUB_T2 : process.env.GH_TOKEN);
-  const requestPayload = github.context.payload;
-  await ok.rest.pulls.createReview({
-    owner: github.context.repo.owner,
-    repo: github.context.repo.repo,
-    pull_number: requestPayload.pull_request.number,
-    event: 'APPROVE'
+  const response = await ok.rest.pulls.list({
+    owner,
+    repo,
+    sort: 'updated',
+    direction: 'desc',
+    state: 'open'
   });
+  return response.data.find(pr => pr.head.sha === commitId);
 }
-async function mergePR() {
+
+function getPr() {
+  var _github$context$paylo;
+
+  if ((_github$context$paylo = github.context.payload.pull_request) !== null && _github$context$paylo !== void 0 && _github$context$paylo.number) {
+    return getPRByNumber();
+  }
+
+  return getPrByCommitRef(github.context.sha);
+}
+
+async function approvePR() {
   var _process$env$GITHUB_T3;
 
   const ok = github.getOctokit((_process$env$GITHUB_T3 = process.env.GITHUB_TOKEN) !== null && _process$env$GITHUB_T3 !== void 0 ? _process$env$GITHUB_T3 : process.env.GH_TOKEN);
+  const pullRequest = await getPr();
+
+  if (pullRequest) {
+    await ok.rest.pulls.createReview({
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      pull_number: pullRequest.number,
+      event: 'APPROVE'
+    });
+  } else {
+    console.log(`no pull request found for ref ${github.context.sha}`);
+  }
+}
+async function mergePR() {
+  var _process$env$GITHUB_T4;
+
+  const ok = github.getOctokit((_process$env$GITHUB_T4 = process.env.GITHUB_TOKEN) !== null && _process$env$GITHUB_T4 !== void 0 ? _process$env$GITHUB_T4 : process.env.GH_TOKEN);
   const query = EnableAutoMerge.loc.source.body;
-  const pullRequest = await getPR();
-  const res = await ok.graphql({
-    query,
-    pullRequestId: pullRequest.node_id,
-    mergeMethod: getMergeMethod()
-  });
-  console.log('automerge response', JSON.stringify(res));
+  const pullRequest = await getPr();
+
+  if (pullRequest) {
+    const res = await ok.graphql({
+      query,
+      pullRequestId: pullRequest.node_id,
+      mergeMethod: getMergeMethod()
+    });
+    console.log('automerge response', JSON.stringify(res));
+  } else {
+    console.log(`no pull request found for ref ${github.context.sha}`);
+  }
 }
 function isDependabot() {
   const dependabot = github.context.actor === 'dependabot[bot]';
@@ -12022,10 +12061,16 @@ function isDependabotPRTarget() {
   if (dependabot) console.log('detected dependabot PR');
   return dependabot;
 }
+function isAutoMergeCandidate() {
+  const autoMergeUser = (0,core.getInput)('auto-merge-bot');
+  const shouldAutoMerge = github.context.eventName === 'push' && github.context.actor === autoMergeUser;
+  if (shouldAutoMerge) console.log('detected auto merge PR candidate');
+  return shouldAutoMerge;
+}
 ;// CONCATENATED MODULE: ./src/approve-and-merge.ts
 
 async function approveAndMerge() {
-  if (isDependabot()) {
+  if (isDependabotPRTarget() || isAutoMergeCandidate()) {
     console.log('auto approving and merging');
     await approvePR();
     await mergePR();

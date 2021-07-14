@@ -30,6 +30,9 @@ inputs:
   private-npm-token:
     description: Auth token to use with private npm registry
     required: false
+  auto-merge-bot:
+    description: The github username of a bot whose PRs should be auto approved and auto merged
+    required: false
 runs:
   using: 'node12'
   main: 'dist/main.js'
