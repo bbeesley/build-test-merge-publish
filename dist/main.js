@@ -937,19 +937,19 @@ class ToolRunner extends events.EventEmitter {
         }
       } // Windows + verbatim
       else if (options.windowsVerbatimArguments) {
-          cmd += `"${toolPath}"`;
+        cmd += `"${toolPath}"`;
 
-          for (const a of args) {
-            cmd += ` ${a}`;
-          }
-        } // Windows (regular)
-        else {
-            cmd += this._windowsQuoteCmdArg(toolPath);
+        for (const a of args) {
+          cmd += ` ${a}`;
+        }
+      } // Windows (regular)
+      else {
+        cmd += this._windowsQuoteCmdArg(toolPath);
 
-            for (const a of args) {
-              cmd += ` ${this._windowsQuoteCmdArg(a)}`;
-            }
-          }
+        for (const a of args) {
+          cmd += ` ${this._windowsQuoteCmdArg(a)}`;
+        }
+      }
     } else {
       // OSX/Linux - this can likely be improved with some form of quoting.
       // creating processes on Unix is fundamentally different than Windows.
