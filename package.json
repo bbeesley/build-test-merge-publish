@@ -45,7 +45,7 @@
     "@graphql-codegen/cli": "^1.21.8",
     "@graphql-codegen/typescript": "^1.23.0",
     "@graphql-codegen/typescript-document-nodes": "^1.17.16",
-    "@graphql-codegen/typescript-operations": "^1.18.4",
+    "@graphql-codegen/typescript-operations": "^2.0.0",
     "@graphql-codegen/typescript-resolvers": "^1.20.0",
     "@babel/node": "^7.14.9",
     "@babel/preset-env": "^7.14.9",
