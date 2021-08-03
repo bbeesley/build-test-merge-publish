@@ -15579,6 +15579,8 @@ export type Repository = Node & ProjectOwner & PackageOwner & Subscribable & Sta
   __typename?: 'Repository';
   /** A list of users that can be assigned to issues in this repository. */
   assignableUsers: UserConnection;
+  /** Whether or not Auto-merge can be enabled on pull requests in this repository. */
+  autoMergeAllowed: Scalars['Boolean'];
   /** A list of branch protection rules for this repository. */
   branchProtectionRules: BranchProtectionRuleConnection;
   /** Returns the code of conduct for this repository */
@@ -29282,6 +29284,7 @@ export type RepoRemoveTopicAuditEntryResolvers<ContextType = any, ParentType ext
 
 export type RepositoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Repository'] = ResolversParentTypes['Repository']> = {
   assignableUsers?: Resolver<ResolversTypes['UserConnection'], ParentType, ContextType, RequireFields<RepositoryAssignableUsersArgs, never>>;
+  autoMergeAllowed?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   branchProtectionRules?: Resolver<ResolversTypes['BranchProtectionRuleConnection'], ParentType, ContextType, RequireFields<RepositoryBranchProtectionRulesArgs, never>>;
   codeOfConduct?: Resolver<Maybe<ResolversTypes['CodeOfConduct']>, ParentType, ContextType>;
   collaborators?: Resolver<Maybe<ResolversTypes['RepositoryCollaboratorConnection']>, ParentType, ContextType, RequireFields<RepositoryCollaboratorsArgs, never>>;
