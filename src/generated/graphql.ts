@@ -32071,32 +32071,4 @@ export type EnableAutoMergeMutationVariables = Exact<{
 }>;
 
 
-export type EnableAutoMergeMutation = (
-  { __typename?: 'Mutation' }
-  & { enablePullRequestAutoMerge?: Maybe<(
-    { __typename?: 'EnablePullRequestAutoMergePayload' }
-    & { pullRequest?: Maybe<(
-      { __typename?: 'PullRequest' }
-      & { autoMergeRequest?: Maybe<(
-        { __typename?: 'AutoMergeRequest' }
-        & Pick<AutoMergeRequest, 'enabledAt'>
-        & { enabledBy?: Maybe<(
-          { __typename?: 'Bot' }
-          & Pick<Bot, 'login'>
-        ) | (
-          { __typename?: 'EnterpriseUserAccount' }
-          & Pick<EnterpriseUserAccount, 'login'>
-        ) | (
-          { __typename?: 'Mannequin' }
-          & Pick<Mannequin, 'login'>
-        ) | (
-          { __typename?: 'Organization' }
-          & Pick<Organization, 'login'>
-        ) | (
-          { __typename?: 'User' }
-          & Pick<User, 'login'>
-        )> }
-      )> }
-    )> }
-  )> }
-);
+export type EnableAutoMergeMutation = { __typename?: 'Mutation', enablePullRequestAutoMerge?: Maybe<{ __typename?: 'EnablePullRequestAutoMergePayload', pullRequest?: Maybe<{ __typename?: 'PullRequest', autoMergeRequest?: Maybe<{ __typename?: 'AutoMergeRequest', enabledAt?: Maybe<any>, enabledBy?: Maybe<{ __typename?: 'Bot', login: string } | { __typename?: 'EnterpriseUserAccount', login: string } | { __typename?: 'Mannequin', login: string } | { __typename?: 'Organization', login: string } | { __typename?: 'User', login: string }> }> }> }> };
