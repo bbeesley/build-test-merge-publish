@@ -10,7 +10,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     timeout-minutes: 5
     steps:
-      - name: rebase
+      - name: request rebase
         uses: "bbeesley/gha-auto-dependabot-rebase@main"
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PA_TOKEN }}
