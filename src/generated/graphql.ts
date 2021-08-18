@@ -10640,6 +10640,8 @@ export type Organization = Node & Actor & PackageOwner & ProjectOwner & Reposito
   domains?: Maybe<VerifiableDomainConnection>;
   /** The organization's public email. */
   email?: Maybe<Scalars['String']>;
+  /** The estimated next GitHub Sponsors payout for this user/organization in cents (USD). */
+  estimatedNextSponsorsPayoutInCents: Scalars['Int'];
   /** True if this user/organization has a GitHub Sponsors listing. */
   hasSponsorsListing: Scalars['Boolean'];
   id: Scalars['ID'];
@@ -10667,6 +10669,8 @@ export type Organization = Node & Actor & PackageOwner & ProjectOwner & Reposito
   memberStatuses: UserStatusConnection;
   /** A list of users who are members of this organization. */
   membersWithRole: OrganizationMemberConnection;
+  /** The estimated monthly GitHub Sponsors income for this user/organization in cents (USD). */
+  monthlyEstimatedSponsorsIncomeInCents: Scalars['Int'];
   /** The organization's public profile name. */
   name?: Maybe<Scalars['String']>;
   /** The HTTP path creating a new team */
@@ -11209,6 +11213,8 @@ export enum OrganizationMembersCanCreateRepositoriesSettingValue {
   All = 'ALL',
   /** Members will be able to create only private repositories. */
   Private = 'PRIVATE',
+  /** Members will be able to create only internal repositories. */
+  Internal = 'INTERNAL',
   /** Members will not be able to create public or private repositories. */
   Disabled = 'DISABLED'
 }
@@ -17226,9 +17232,7 @@ export enum SecurityAdvisoryEcosystem {
   /** Python packages hosted at PyPI.org */
   Pip = 'PIP',
   /** Ruby gems hosted at RubyGems.org */
-  Rubygems = 'RUBYGEMS',
-  /** Applications, runtimes, operating systems and other kinds of software */
-  Other = 'OTHER'
+  Rubygems = 'RUBYGEMS'
 }
 
 /** An edge in a connection. */
@@ -17529,12 +17533,16 @@ export enum SponsorOrderField {
 
 /** Entities that can be sponsored through GitHub Sponsors */
 export type Sponsorable = {
+  /** The estimated next GitHub Sponsors payout for this user/organization in cents (USD). */
+  estimatedNextSponsorsPayoutInCents: Scalars['Int'];
   /** True if this user/organization has a GitHub Sponsors listing. */
   hasSponsorsListing: Scalars['Boolean'];
   /** Check if the given account is sponsoring this user/organization. */
   isSponsoredBy: Scalars['Boolean'];
   /** True if the viewer is sponsored by this user/organization. */
   isSponsoringViewer: Scalars['Boolean'];
+  /** The estimated monthly GitHub Sponsors income for this user/organization in cents (USD). */
+  monthlyEstimatedSponsorsIncomeInCents: Scalars['Int'];
   /** List of users and organizations this entity is sponsoring. */
   sponsoring: SponsorConnection;
   /** List of sponsors for this user or organization. */
@@ -20657,6 +20665,8 @@ export type User = Node & Actor & PackageOwner & ProjectOwner & RepositoryDiscus
   databaseId?: Maybe<Scalars['Int']>;
   /** The user's publicly visible profile email. */
   email: Scalars['String'];
+  /** The estimated next GitHub Sponsors payout for this user/organization in cents (USD). */
+  estimatedNextSponsorsPayoutInCents: Scalars['Int'];
   /** A list of users the given user is followed by. */
   followers: FollowerConnection;
   /** A list of users the given user is following. */
@@ -20704,6 +20714,8 @@ export type User = Node & Actor & PackageOwner & ProjectOwner & RepositoryDiscus
   location?: Maybe<Scalars['String']>;
   /** The username used to login. */
   login: Scalars['String'];
+  /** The estimated monthly GitHub Sponsors income for this user/organization in cents (USD). */
+  monthlyEstimatedSponsorsIncomeInCents: Scalars['Int'];
   /** The user's public profile name. */
   name?: Maybe<Scalars['String']>;
   /** Find an organization by its login that the user belongs to. */
@@ -27495,6 +27507,7 @@ export type OrganizationResolvers<ContextType = any, ParentType extends Resolver
   descriptionHTML?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   domains?: Resolver<Maybe<ResolversTypes['VerifiableDomainConnection']>, ParentType, ContextType, RequireFields<OrganizationDomainsArgs, 'isVerified' | 'isApproved' | 'orderBy'>>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  estimatedNextSponsorsPayoutInCents?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   hasSponsorsListing?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   interactionAbility?: Resolver<Maybe<ResolversTypes['RepositoryInteractionAbility']>, ParentType, ContextType>;
@@ -27509,6 +27522,7 @@ export type OrganizationResolvers<ContextType = any, ParentType extends Resolver
   login?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   memberStatuses?: Resolver<ResolversTypes['UserStatusConnection'], ParentType, ContextType, RequireFields<OrganizationMemberStatusesArgs, 'orderBy'>>;
   membersWithRole?: Resolver<ResolversTypes['OrganizationMemberConnection'], ParentType, ContextType, RequireFields<OrganizationMembersWithRoleArgs, never>>;
+  monthlyEstimatedSponsorsIncomeInCents?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   newTeamResourcePath?: Resolver<ResolversTypes['URI'], ParentType, ContextType>;
   newTeamUrl?: Resolver<ResolversTypes['URI'], ParentType, ContextType>;
@@ -30062,9 +30076,11 @@ export type SponsorEdgeResolvers<ContextType = any, ParentType extends Resolvers
 
 export type SponsorableResolvers<ContextType = any, ParentType extends ResolversParentTypes['Sponsorable'] = ResolversParentTypes['Sponsorable']> = {
   __resolveType: TypeResolveFn<'Organization' | 'User', ParentType, ContextType>;
+  estimatedNextSponsorsPayoutInCents?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   hasSponsorsListing?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   isSponsoredBy?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<SponsorableIsSponsoredByArgs, 'accountLogin'>>;
   isSponsoringViewer?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  monthlyEstimatedSponsorsIncomeInCents?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   sponsoring?: Resolver<ResolversTypes['SponsorConnection'], ParentType, ContextType, RequireFields<SponsorableSponsoringArgs, 'orderBy'>>;
   sponsors?: Resolver<ResolversTypes['SponsorConnection'], ParentType, ContextType, RequireFields<SponsorableSponsorsArgs, 'orderBy'>>;
   sponsorsActivities?: Resolver<ResolversTypes['SponsorsActivityConnection'], ParentType, ContextType, RequireFields<SponsorableSponsorsActivitiesArgs, 'period' | 'orderBy'>>;
@@ -31221,6 +31237,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   databaseId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  estimatedNextSponsorsPayoutInCents?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   followers?: Resolver<ResolversTypes['FollowerConnection'], ParentType, ContextType, RequireFields<UserFollowersArgs, never>>;
   following?: Resolver<ResolversTypes['FollowingConnection'], ParentType, ContextType, RequireFields<UserFollowingArgs, never>>;
   gist?: Resolver<Maybe<ResolversTypes['Gist']>, ParentType, ContextType, RequireFields<UserGistArgs, 'name'>>;
@@ -31245,6 +31262,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   itemShowcase?: Resolver<ResolversTypes['ProfileItemShowcase'], ParentType, ContextType>;
   location?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   login?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  monthlyEstimatedSponsorsIncomeInCents?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   organization?: Resolver<Maybe<ResolversTypes['Organization']>, ParentType, ContextType, RequireFields<UserOrganizationArgs, 'login'>>;
   organizationVerifiedDomainEmails?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType, RequireFields<UserOrganizationVerifiedDomainEmailsArgs, 'login'>>;
