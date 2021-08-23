@@ -1773,6 +1773,7 @@ export type Commit = Node & GitObject & Subscribable & UniformResourceLocatable 
   /**
    * The list of authors for this commit based on the git author and the Co-authored-by
    * message trailer. The git author will always be first.
+   *
    */
   authors: GitActorConnection;
   /** Fetches `git blame` information. */
@@ -2185,6 +2186,7 @@ export type Contribution = {
    * Whether this contribution is associated with a record you do not have access to. For
    * example, your own 'first issue' contribution may have been made on a repository you can no
    * longer access.
+   *
    */
   isRestricted: Scalars['Boolean'];
   /** When this contribution was made. */
@@ -2193,7 +2195,10 @@ export type Contribution = {
   resourcePath: Scalars['URI'];
   /** The HTTP URL for this contribution. */
   url: Scalars['URI'];
-  /** The user who made this contribution. */
+  /**
+   * The user who made this contribution.
+   *
+   */
   user: User;
 };
 
@@ -2278,7 +2283,10 @@ export type ContributionsCollection = {
   contributionCalendar: ContributionCalendar;
   /** The years the user has been making contributions with the most recent year first. */
   contributionYears: Array<Scalars['Int']>;
-  /** Determine if this collection's time span ends in the current month. */
+  /**
+   * Determine if this collection's time span ends in the current month.
+   *
+   */
   doesEndInCurrentMonth: Scalars['Boolean'];
   /** The date of the first restricted contribution the user made in this time period. Can only be non-null when the user has enabled private contribution counts. */
   earliestRestrictedContributionDate?: Maybe<Scalars['Date']>;
@@ -2309,21 +2317,25 @@ export type ContributionsCollection = {
   /**
    * When this collection's time range does not include any activity from the user, use this
    * to get a different collection from an earlier time range that does have activity.
+   *
    */
   mostRecentCollectionWithActivity?: Maybe<ContributionsCollection>;
   /**
    * Returns a different contributions collection from an earlier time range than this one
    * that does not have any contributions.
+   *
    */
   mostRecentCollectionWithoutActivity?: Maybe<ContributionsCollection>;
   /**
    * The issue the user opened on GitHub that received the most comments in the specified
    * time frame.
+   *
    */
   popularIssueContribution?: Maybe<CreatedIssueContribution>;
   /**
    * The pull request the user opened on GitHub that received the most comments in the
    * specified time frame.
+   *
    */
   popularPullRequestContribution?: Maybe<CreatedPullRequestContribution>;
   /** Pull request contributions made by the user. */
@@ -2802,11 +2814,13 @@ export type CreatePullRequestInput = {
    * The name of the branch you want your changes pulled into. This should be an existing branch
    * on the current repository. You cannot update the base branch on a pull request to point
    * to another repository.
+   *
    */
   baseRefName: Scalars['String'];
   /**
    * The name of the branch where your changes are implemented. For cross-repository pull requests
    * in the same network, namespace `head_ref_name` with a user like this: `username:branch`.
+   *
    */
   headRefName: Scalars['String'];
   /** The title of the pull request. */
@@ -2960,6 +2974,7 @@ export type CreatedCommitContribution = Contribution & {
    * Whether this contribution is associated with a record you do not have access to. For
    * example, your own 'first issue' contribution may have been made on a repository you can no
    * longer access.
+   *
    */
   isRestricted: Scalars['Boolean'];
   /** When this contribution was made. */
@@ -2970,7 +2985,10 @@ export type CreatedCommitContribution = Contribution & {
   resourcePath: Scalars['URI'];
   /** The HTTP URL for this contribution. */
   url: Scalars['URI'];
-  /** The user who made this contribution. */
+  /**
+   * The user who made this contribution.
+   *
+   */
   user: User;
 };
 
@@ -2983,7 +3001,10 @@ export type CreatedCommitContributionConnection = {
   nodes?: Maybe<Array<Maybe<CreatedCommitContribution>>>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** Identifies the total count of commits across days and repositories in the connection. */
+  /**
+   * Identifies the total count of commits across days and repositories in the connection.
+   *
+   */
   totalCount: Scalars['Int'];
 };
 
@@ -3003,6 +3024,7 @@ export type CreatedIssueContribution = Contribution & {
    * Whether this contribution is associated with a record you do not have access to. For
    * example, your own 'first issue' contribution may have been made on a repository you can no
    * longer access.
+   *
    */
   isRestricted: Scalars['Boolean'];
   /** The issue that was opened. */
@@ -3013,7 +3035,10 @@ export type CreatedIssueContribution = Contribution & {
   resourcePath: Scalars['URI'];
   /** The HTTP URL for this contribution. */
   url: Scalars['URI'];
-  /** The user who made this contribution. */
+  /**
+   * The user who made this contribution.
+   *
+   */
   user: User;
 };
 
@@ -3049,6 +3074,7 @@ export type CreatedPullRequestContribution = Contribution & {
    * Whether this contribution is associated with a record you do not have access to. For
    * example, your own 'first issue' contribution may have been made on a repository you can no
    * longer access.
+   *
    */
   isRestricted: Scalars['Boolean'];
   /** When this contribution was made. */
@@ -3059,7 +3085,10 @@ export type CreatedPullRequestContribution = Contribution & {
   resourcePath: Scalars['URI'];
   /** The HTTP URL for this contribution. */
   url: Scalars['URI'];
-  /** The user who made this contribution. */
+  /**
+   * The user who made this contribution.
+   *
+   */
   user: User;
 };
 
@@ -3095,6 +3124,7 @@ export type CreatedPullRequestReviewContribution = Contribution & {
    * Whether this contribution is associated with a record you do not have access to. For
    * example, your own 'first issue' contribution may have been made on a repository you can no
    * longer access.
+   *
    */
   isRestricted: Scalars['Boolean'];
   /** When this contribution was made. */
@@ -3109,7 +3139,10 @@ export type CreatedPullRequestReviewContribution = Contribution & {
   resourcePath: Scalars['URI'];
   /** The HTTP URL for this contribution. */
   url: Scalars['URI'];
-  /** The user who made this contribution. */
+  /**
+   * The user who made this contribution.
+   *
+   */
   user: User;
 };
 
@@ -3142,6 +3175,7 @@ export type CreatedRepositoryContribution = Contribution & {
    * Whether this contribution is associated with a record you do not have access to. For
    * example, your own 'first issue' contribution may have been made on a repository you can no
    * longer access.
+   *
    */
   isRestricted: Scalars['Boolean'];
   /** When this contribution was made. */
@@ -3152,7 +3186,10 @@ export type CreatedRepositoryContribution = Contribution & {
   resourcePath: Scalars['URI'];
   /** The HTTP URL for this contribution. */
   url: Scalars['URI'];
-  /** The user who made this contribution. */
+  /**
+   * The user who made this contribution.
+   *
+   */
   user: User;
 };
 
@@ -5881,7 +5918,10 @@ export type Gist = Node & Starrable & UniformResourceLocatable & {
   pushedAt?: Maybe<Scalars['DateTime']>;
   /** The HTML path to this resource. */
   resourcePath: Scalars['URI'];
-  /** Returns a count of how many stargazers there are on this object */
+  /**
+   * Returns a count of how many stargazers there are on this object
+   *
+   */
   stargazerCount: Scalars['Int'];
   /** A list of users who have starred this starrable. */
   stargazers: StargazerConnection;
@@ -6648,6 +6688,7 @@ export type IssueComment = Node & Comment & Deletable & Minimizable & Updatable 
   /**
    * Returns the pull request associated with the comment, if this comment was made on a
    * pull request.
+   *
    */
   pullRequest?: Maybe<PullRequest>;
   /** A list of reactions grouped by content left on the subject. */
@@ -6964,6 +7005,7 @@ export type JoinedGitHubContribution = Contribution & {
    * Whether this contribution is associated with a record you do not have access to. For
    * example, your own 'first issue' contribution may have been made on a repository you can no
    * longer access.
+   *
    */
   isRestricted: Scalars['Boolean'];
   /** When this contribution was made. */
@@ -6972,7 +7014,10 @@ export type JoinedGitHubContribution = Contribution & {
   resourcePath: Scalars['URI'];
   /** The HTTP URL for this contribution. */
   url: Scalars['URI'];
-  /** The user who made this contribution. */
+  /**
+   * The user who made this contribution.
+   *
+   */
   user: User;
 };
 
@@ -7490,6 +7535,7 @@ export type MarketplaceListing = Node & {
   /**
    * Can the current viewer edit the primary and secondary category of this
    * Marketplace listing.
+   *
    */
   viewerCanEditCategories: Scalars['Boolean'];
   /** Can the current viewer edit the plans for this Marketplace listing. */
@@ -7497,26 +7543,36 @@ export type MarketplaceListing = Node & {
   /**
    * Can the current viewer return this Marketplace listing to draft state
    * so it becomes editable again.
+   *
    */
   viewerCanRedraft: Scalars['Boolean'];
   /**
    * Can the current viewer reject this Marketplace listing by returning it to
    * an editable draft state or rejecting it entirely.
+   *
    */
   viewerCanReject: Scalars['Boolean'];
   /**
    * Can the current viewer request this listing be reviewed for display in
    * the Marketplace as verified.
+   *
    */
   viewerCanRequestApproval: Scalars['Boolean'];
-  /** Indicates whether the current user has an active subscription to this Marketplace listing. */
+  /**
+   * Indicates whether the current user has an active subscription to this Marketplace listing.
+   *
+   */
   viewerHasPurchased: Scalars['Boolean'];
   /**
    * Indicates if the current user has purchased a subscription to this Marketplace listing
    * for all of the organizations the user owns.
+   *
    */
   viewerHasPurchasedForAllOrganizations: Scalars['Boolean'];
-  /** Does the current viewer role allow them to administer this Marketplace listing. */
+  /**
+   * Does the current viewer role allow them to administer this Marketplace listing.
+   *
+   */
   viewerIsListingAdmin: Scalars['Boolean'];
 };
 
@@ -12040,6 +12096,7 @@ export type ProjectCard = Node & {
    * project column at a time. The column field will be null if the card is created
    * in a pending state and has yet to be associated with a column. Once cards are
    * associated with a column, they will not become pending in the future.
+   *
    */
   column?: Maybe<ProjectColumn>;
   /** The card content item */
@@ -15810,7 +15867,10 @@ export type Repository = Node & ProjectOwner & PackageOwner & Subscribable & Sta
   squashMergeAllowed: Scalars['Boolean'];
   /** The SSH URL to clone this repository */
   sshUrl: Scalars['GitSSHRemote'];
-  /** Returns a count of how many stargazers there are on this object */
+  /**
+   * Returns a count of how many stargazers there are on this object
+   *
+   */
   stargazerCount: Scalars['Int'];
   /** A list of users who have starred this starrable. */
   stargazers: StargazerConnection;
@@ -16899,6 +16959,7 @@ export type RestrictedContribution = Contribution & {
    * Whether this contribution is associated with a record you do not have access to. For
    * example, your own 'first issue' contribution may have been made on a repository you can no
    * longer access.
+   *
    */
   isRestricted: Scalars['Boolean'];
   /** When this contribution was made. */
@@ -16907,7 +16968,10 @@ export type RestrictedContribution = Contribution & {
   resourcePath: Scalars['URI'];
   /** The HTTP URL for this contribution. */
   url: Scalars['URI'];
-  /** The user who made this contribution. */
+  /**
+   * The user who made this contribution.
+   *
+   */
   user: User;
 };
 
@@ -17041,6 +17105,7 @@ export type ReviewRequestedEvent = Node & {
 /**
  * A hovercard context with a message describing the current code review state of the pull
  * request.
+ *
  */
 export type ReviewStatusHovercardContext = HovercardContext & {
   __typename?: 'ReviewStatusHovercardContext';
@@ -17374,6 +17439,7 @@ export type SecurityVulnerability = {
    * + `< 0.1.11` denotes a version range up to, but excluding, the specified version
    * + `>= 4.3.0, < 4.3.5` denotes a version range with a known minimum and maximum version.
    * + `>= 0.0.1` denotes a version range with a known minimum, but no known maximum
+   *
    */
   vulnerableVersionRange: Scalars['String'];
 };
@@ -18107,7 +18173,10 @@ export type StargazerEdge = {
 /** Things that can be starred. */
 export type Starrable = {
   id: Scalars['ID'];
-  /** Returns a count of how many stargazers there are on this object */
+  /**
+   * Returns a count of how many stargazers there are on this object
+   *
+   */
   stargazerCount: Scalars['Int'];
   /** A list of users who have starred this starrable. */
   stargazers: StargazerConnection;
@@ -19311,9 +19380,13 @@ export type Topic = Node & Starrable & {
   /**
    * A list of related topics, including aliases of this topic, sorted with the most relevant
    * first. Returns up to 10 Topics.
+   *
    */
   relatedTopics: Array<Topic>;
-  /** Returns a count of how many stargazers there are on this object */
+  /**
+   * Returns a count of how many stargazers there are on this object
+   *
+   */
   stargazerCount: Scalars['Int'];
   /** A list of users who have starred this starrable. */
   stargazers: StargazerConnection;
@@ -20462,6 +20535,7 @@ export type UpdatePullRequestInput = {
   /**
    * The name of the branch you want your changes pulled into. This should be an existing branch
    * on the current repository.
+   *
    */
   baseRefName?: Maybe<Scalars['String']>;
   /** The title of the pull request. */
@@ -20811,7 +20885,10 @@ export type User = Node & Actor & PackageOwner & ProjectOwner & RepositoryDiscus
   starredRepositories: StarredRepositoryConnection;
   /** The user's description of what they're currently doing. */
   status?: Maybe<UserStatus>;
-  /** Repositories the user has contributed to, ordered by contribution rank, plus repositories the user has created */
+  /**
+   * Repositories the user has contributed to, ordered by contribution rank, plus repositories the user has created
+   *
+   */
   topRepositories: RepositoryConnection;
   /** The user's Twitter username. */
   twitterUsername?: Maybe<Scalars['String']>;
