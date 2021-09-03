@@ -10817,8 +10817,10 @@ export type Organization = Node & Actor & PackageOwner & ProjectOwner & Reposito
   sponsorsActivities: SponsorsActivityConnection;
   /** The GitHub Sponsors listing for this user or organization. */
   sponsorsListing?: Maybe<SponsorsListing>;
-  /** The viewer's sponsorship of this entity. */
+  /** The sponsorship from the viewer to this user/organization; that is, the sponsorship where you're the sponsor. Only returns a sponsorship if it is active. */
   sponsorshipForViewerAsSponsor?: Maybe<Sponsorship>;
+  /** The sponsorship from this user/organization to the viewer; that is, the sponsorship you're receiving. Only returns a sponsorship if it is active. */
+  sponsorshipForViewerAsSponsorable?: Maybe<Sponsorship>;
   /** List of sponsorship updates sent from this sponsorable to sponsors. */
   sponsorshipNewsletters: SponsorshipNewsletterConnection;
   /** This object's sponsorships as the maintainer. */
@@ -12811,7 +12813,7 @@ export type PullRequestCommit = Node & UniformResourceLocatable & {
 };
 
 /** Represents a commit comment thread part of a pull request. */
-export type PullRequestCommitCommentThread = Node & RepositoryNode & {
+export type PullRequestCommitCommentThread = RepositoryNode & Node & {
   __typename?: 'PullRequestCommitCommentThread';
   /** The comments that exist in this thread. */
   comments: CommitCommentConnection;
@@ -17661,8 +17663,10 @@ export type Sponsorable = {
   sponsorsActivities: SponsorsActivityConnection;
   /** The GitHub Sponsors listing for this user or organization. */
   sponsorsListing?: Maybe<SponsorsListing>;
-  /** The viewer's sponsorship of this entity. */
+  /** The sponsorship from the viewer to this user/organization; that is, the sponsorship where you're the sponsor. Only returns a sponsorship if it is active. */
   sponsorshipForViewerAsSponsor?: Maybe<Sponsorship>;
+  /** The sponsorship from this user/organization to the viewer; that is, the sponsorship you're receiving. Only returns a sponsorship if it is active. */
+  sponsorshipForViewerAsSponsorable?: Maybe<Sponsorship>;
   /** List of sponsorship updates sent from this sponsorable to sponsors. */
   sponsorshipNewsletters: SponsorshipNewsletterConnection;
   /** This object's sponsorships as the maintainer. */
@@ -18020,6 +18024,8 @@ export type Sponsorship = Node & {
   id: Scalars['ID'];
   /** Whether this sponsorship represents a one-time payment versus a recurring sponsorship. */
   isOneTimePayment: Scalars['Boolean'];
+  /** Check if the sponsor has chosen to receive sponsorship update emails sent from the sponsorable. Only returns a non-null value when the viewer has permission to know this. */
+  isSponsorOptedIntoEmail?: Maybe<Scalars['Boolean']>;
   /**
    * The entity that is being sponsored
    * @deprecated `Sponsorship.maintainer` will be removed. Use `Sponsorship.sponsorable` instead. Removal on 2020-04-01 UTC.
@@ -20886,8 +20892,10 @@ export type User = Node & Actor & PackageOwner & ProjectOwner & RepositoryDiscus
   sponsorsActivities: SponsorsActivityConnection;
   /** The GitHub Sponsors listing for this user or organization. */
   sponsorsListing?: Maybe<SponsorsListing>;
-  /** The viewer's sponsorship of this entity. */
+  /** The sponsorship from the viewer to this user/organization; that is, the sponsorship where you're the sponsor. Only returns a sponsorship if it is active. */
   sponsorshipForViewerAsSponsor?: Maybe<Sponsorship>;
+  /** The sponsorship from this user/organization to the viewer; that is, the sponsorship you're receiving. Only returns a sponsorship if it is active. */
+  sponsorshipForViewerAsSponsorable?: Maybe<Sponsorship>;
   /** List of sponsorship updates sent from this sponsorable to sponsors. */
   sponsorshipNewsletters: SponsorshipNewsletterConnection;
   /** This object's sponsorships as the maintainer. */
@@ -27682,6 +27690,7 @@ export type OrganizationResolvers<ContextType = any, ParentType extends Resolver
   sponsorsActivities?: Resolver<ResolversTypes['SponsorsActivityConnection'], ParentType, ContextType, RequireFields<OrganizationSponsorsActivitiesArgs, 'period' | 'orderBy'>>;
   sponsorsListing?: Resolver<Maybe<ResolversTypes['SponsorsListing']>, ParentType, ContextType>;
   sponsorshipForViewerAsSponsor?: Resolver<Maybe<ResolversTypes['Sponsorship']>, ParentType, ContextType>;
+  sponsorshipForViewerAsSponsorable?: Resolver<Maybe<ResolversTypes['Sponsorship']>, ParentType, ContextType>;
   sponsorshipNewsletters?: Resolver<ResolversTypes['SponsorshipNewsletterConnection'], ParentType, ContextType, RequireFields<OrganizationSponsorshipNewslettersArgs, 'orderBy'>>;
   sponsorshipsAsMaintainer?: Resolver<ResolversTypes['SponsorshipConnection'], ParentType, ContextType, RequireFields<OrganizationSponsorshipsAsMaintainerArgs, 'includePrivate'>>;
   sponsorshipsAsSponsor?: Resolver<ResolversTypes['SponsorshipConnection'], ParentType, ContextType, RequireFields<OrganizationSponsorshipsAsSponsorArgs, never>>;
@@ -30221,6 +30230,7 @@ export type SponsorableResolvers<ContextType = any, ParentType extends Resolvers
   sponsorsActivities?: Resolver<ResolversTypes['SponsorsActivityConnection'], ParentType, ContextType, RequireFields<SponsorableSponsorsActivitiesArgs, 'period' | 'orderBy'>>;
   sponsorsListing?: Resolver<Maybe<ResolversTypes['SponsorsListing']>, ParentType, ContextType>;
   sponsorshipForViewerAsSponsor?: Resolver<Maybe<ResolversTypes['Sponsorship']>, ParentType, ContextType>;
+  sponsorshipForViewerAsSponsorable?: Resolver<Maybe<ResolversTypes['Sponsorship']>, ParentType, ContextType>;
   sponsorshipNewsletters?: Resolver<ResolversTypes['SponsorshipNewsletterConnection'], ParentType, ContextType, RequireFields<SponsorableSponsorshipNewslettersArgs, 'orderBy'>>;
   sponsorshipsAsMaintainer?: Resolver<ResolversTypes['SponsorshipConnection'], ParentType, ContextType, RequireFields<SponsorableSponsorshipsAsMaintainerArgs, 'includePrivate'>>;
   sponsorshipsAsSponsor?: Resolver<ResolversTypes['SponsorshipConnection'], ParentType, ContextType, RequireFields<SponsorableSponsorshipsAsSponsorArgs, never>>;
@@ -30336,6 +30346,7 @@ export type SponsorshipResolvers<ContextType = any, ParentType extends Resolvers
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   isOneTimePayment?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  isSponsorOptedIntoEmail?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   maintainer?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   privacyLevel?: Resolver<ResolversTypes['SponsorshipPrivacy'], ParentType, ContextType>;
   sponsor?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
@@ -31425,6 +31436,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   sponsorsActivities?: Resolver<ResolversTypes['SponsorsActivityConnection'], ParentType, ContextType, RequireFields<UserSponsorsActivitiesArgs, 'period' | 'orderBy'>>;
   sponsorsListing?: Resolver<Maybe<ResolversTypes['SponsorsListing']>, ParentType, ContextType>;
   sponsorshipForViewerAsSponsor?: Resolver<Maybe<ResolversTypes['Sponsorship']>, ParentType, ContextType>;
+  sponsorshipForViewerAsSponsorable?: Resolver<Maybe<ResolversTypes['Sponsorship']>, ParentType, ContextType>;
   sponsorshipNewsletters?: Resolver<ResolversTypes['SponsorshipNewsletterConnection'], ParentType, ContextType, RequireFields<UserSponsorshipNewslettersArgs, 'orderBy'>>;
   sponsorshipsAsMaintainer?: Resolver<ResolversTypes['SponsorshipConnection'], ParentType, ContextType, RequireFields<UserSponsorshipsAsMaintainerArgs, 'includePrivate'>>;
   sponsorshipsAsSponsor?: Resolver<ResolversTypes['SponsorshipConnection'], ParentType, ContextType, RequireFields<UserSponsorshipsAsSponsorArgs, never>>;
