@@ -17624,7 +17624,9 @@ export enum SecurityAdvisoryEcosystem {
   /** Python packages hosted at PyPI.org */
   Pip = 'PIP',
   /** Ruby gems hosted at RubyGems.org */
-  Rubygems = 'RUBYGEMS'
+  Rubygems = 'RUBYGEMS',
+  /** Rust crates */
+  Rust = 'RUST'
 }
 
 /** An edge in a connection. */
