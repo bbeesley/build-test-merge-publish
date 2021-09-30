@@ -203,7 +203,7 @@ var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, gene
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.getState = exports.saveState = exports.group = exports.endGroup = exports.startGroup = exports.info = exports.notice = exports.warning = exports.error = exports.debug = exports.isDebug = exports.setFailed = exports.setCommandEcho = exports.setOutput = exports.getBooleanInput = exports.getMultilineInput = exports.getInput = exports.addPath = exports.setSecret = exports.exportVariable = exports.ExitCode = void 0;
+exports.getIDToken = exports.getState = exports.saveState = exports.group = exports.endGroup = exports.startGroup = exports.info = exports.notice = exports.warning = exports.error = exports.debug = exports.isDebug = exports.setFailed = exports.setCommandEcho = exports.setOutput = exports.getBooleanInput = exports.getMultilineInput = exports.getInput = exports.addPath = exports.setSecret = exports.exportVariable = exports.ExitCode = void 0;
 
 const command_1 = __webpack_require__(/*! ./command */ "./node_modules/@actions/core/lib/command.js");
 
@@ -214,6 +214,8 @@ const utils_1 = __webpack_require__(/*! ./utils */ "./node_modules/@actions/core
 const os = __importStar(__webpack_require__(/*! os */ "os"));
 
 const path = __importStar(__webpack_require__(/*! path */ "path"));
+
+const oidc_utils_1 = __webpack_require__(/*! ./oidc-utils */ "./node_modules/@actions/core/lib/oidc-utils.js");
 /**
  * The code to exit an action
  */
@@ -534,6 +536,14 @@ function getState(name) {
 
 exports.getState = getState;
 
+function getIDToken(aud) {
+  return __awaiter(this, void 0, void 0, function* () {
+    return yield oidc_utils_1.OidcClient.getIDToken(aud);
+  });
+}
+
+exports.getIDToken = getIDToken;
+
 /***/ }),
 
 /***/ "./node_modules/@actions/core/lib/file-command.js":
@@ -610,6 +620,134 @@ exports.issueCommand = issueCommand;
 
 /***/ }),
 
+/***/ "./node_modules/@actions/core/lib/oidc-utils.js":
+/*!******************************************************!*\
+  !*** ./node_modules/@actions/core/lib/oidc-utils.js ***!
+  \******************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.OidcClient = void 0;
+
+const http_client_1 = __webpack_require__(/*! @actions/http-client */ "./node_modules/@actions/http-client/index.js");
+
+const auth_1 = __webpack_require__(/*! @actions/http-client/auth */ "./node_modules/@actions/http-client/auth.js");
+
+const core_1 = __webpack_require__(/*! ./core */ "./node_modules/@actions/core/lib/core.js");
+
+class OidcClient {
+  static createHttpClient(allowRetry = true, maxRetry = 10) {
+    const requestOptions = {
+      allowRetries: allowRetry,
+      maxRetries: maxRetry
+    };
+    return new http_client_1.HttpClient('actions/oidc-client', [new auth_1.BearerCredentialHandler(OidcClient.getRequestToken())], requestOptions);
+  }
+
+  static getRequestToken() {
+    const token = process.env['ACTIONS_ID_TOKEN_REQUEST_TOKEN'];
+
+    if (!token) {
+      throw new Error('Unable to get ACTIONS_ID_TOKEN_REQUEST_TOKEN env variable');
+    }
+
+    return token;
+  }
+
+  static getIDTokenUrl() {
+    const runtimeUrl = process.env['ACTIONS_ID_TOKEN_REQUEST_URL'];
+
+    if (!runtimeUrl) {
+      throw new Error('Unable to get ACTIONS_ID_TOKEN_REQUEST_URL env variable');
+    }
+
+    return runtimeUrl;
+  }
+
+  static getCall(id_token_url) {
+    var _a;
+
+    return __awaiter(this, void 0, void 0, function* () {
+      const httpclient = OidcClient.createHttpClient();
+      const res = yield httpclient.getJson(id_token_url).catch(error => {
+        throw new Error(`Failed to get ID Token. \n 
+        Error Code : ${error.statusCode}\n 
+        Error Message: ${error.result.message}`);
+      });
+      const id_token = (_a = res.result) === null || _a === void 0 ? void 0 : _a.value;
+
+      if (!id_token) {
+        throw new Error('Response json body do not have ID Token field');
+      }
+
+      return id_token;
+    });
+  }
+
+  static getIDToken(audience) {
+    return __awaiter(this, void 0, void 0, function* () {
+      try {
+        // New ID Token is requested from action service
+        let id_token_url = OidcClient.getIDTokenUrl();
+
+        if (audience) {
+          const encodedAudience = encodeURIComponent(audience);
+          id_token_url = `${id_token_url}&audience=${encodedAudience}`;
+        }
+
+        core_1.debug(`ID token url is ${id_token_url}`);
+        const id_token = yield OidcClient.getCall(id_token_url);
+        core_1.setSecret(id_token);
+        return id_token;
+      } catch (error) {
+        throw new Error(`Error message: ${error.message}`);
+      }
+    });
+  }
+
+}
+
+exports.OidcClient = OidcClient;
+
+/***/ }),
+
 /***/ "./node_modules/@actions/core/lib/utils.js":
 /*!*************************************************!*\
   !*** ./node_modules/@actions/core/lib/utils.js ***!
@@ -655,6 +793,7 @@ function toCommandProperties(annotationProperties) {
 
   return {
     title: annotationProperties.title,
+    file: annotationProperties.file,
     line: annotationProperties.startLine,
     endLine: annotationProperties.endLine,
     col: annotationProperties.startColumn,
@@ -1881,6 +2020,92 @@ function getOctokitOptions(token, options) {
 }
 
 exports.getOctokitOptions = getOctokitOptions;
+
+/***/ }),
+
+/***/ "./node_modules/@actions/http-client/auth.js":
+/*!***************************************************!*\
+  !*** ./node_modules/@actions/http-client/auth.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+class BasicCredentialHandler {
+  constructor(username, password) {
+    this.username = username;
+    this.password = password;
+  }
+
+  prepareRequest(options) {
+    options.headers['Authorization'] = 'Basic ' + Buffer.from(this.username + ':' + this.password).toString('base64');
+  } // This handler cannot handle 401
+
+
+  canHandleAuthentication(response) {
+    return false;
+  }
+
+  handleAuthentication(httpClient, requestInfo, objs) {
+    return null;
+  }
+
+}
+
+exports.BasicCredentialHandler = BasicCredentialHandler;
+
+class BearerCredentialHandler {
+  constructor(token) {
+    this.token = token;
+  } // currently implements pre-authorization
+  // TODO: support preAuth = false where it hooks on 401
+
+
+  prepareRequest(options) {
+    options.headers['Authorization'] = 'Bearer ' + this.token;
+  } // This handler cannot handle 401
+
+
+  canHandleAuthentication(response) {
+    return false;
+  }
+
+  handleAuthentication(httpClient, requestInfo, objs) {
+    return null;
+  }
+
+}
+
+exports.BearerCredentialHandler = BearerCredentialHandler;
+
+class PersonalAccessTokenCredentialHandler {
+  constructor(token) {
+    this.token = token;
+  } // currently implements pre-authorization
+  // TODO: support preAuth = false where it hooks on 401
+
+
+  prepareRequest(options) {
+    options.headers['Authorization'] = 'Basic ' + Buffer.from('PAT:' + this.token).toString('base64');
+  } // This handler cannot handle 401
+
+
+  canHandleAuthentication(response) {
+    return false;
+  }
+
+  handleAuthentication(httpClient, requestInfo, objs) {
+    return null;
+  }
+
+}
+
+exports.PersonalAccessTokenCredentialHandler = PersonalAccessTokenCredentialHandler;
 
 /***/ }),
 
