@@ -19683,6 +19683,8 @@ export type Topic = Node & Starrable & {
    *
    */
   relatedTopics: Array<Topic>;
+  /** A list of repositories. */
+  repositories: RepositoryConnection;
   /**
    * Returns a count of how many stargazers there are on this object
    *
@@ -19698,6 +19700,21 @@ export type Topic = Node & Starrable & {
 /** A topic aggregates entities that are related to a subject. */
 export type TopicRelatedTopicsArgs = {
   first?: Maybe<Scalars['Int']>;
+};
+
+
+/** A topic aggregates entities that are related to a subject. */
+export type TopicRepositoriesArgs = {
+  affiliations?: Maybe<Array<Maybe<RepositoryAffiliation>>>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  isLocked?: Maybe<Scalars['Boolean']>;
+  last?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<RepositoryOrder>;
+  ownerAffiliations?: Maybe<Array<Maybe<RepositoryAffiliation>>>;
+  privacy?: Maybe<RepositoryPrivacy>;
+  sponsorableOnly?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -31267,6 +31284,7 @@ export type TopicResolvers<ContextType = any, ParentType extends ResolversParent
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   relatedTopics?: Resolver<Array<ResolversTypes['Topic']>, ParentType, ContextType, RequireFields<TopicRelatedTopicsArgs, 'first'>>;
+  repositories?: Resolver<ResolversTypes['RepositoryConnection'], ParentType, ContextType, RequireFields<TopicRepositoriesArgs, 'ownerAffiliations' | 'sponsorableOnly'>>;
   stargazerCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   stargazers?: Resolver<ResolversTypes['StargazerConnection'], ParentType, ContextType, RequireFields<TopicStargazersArgs, never>>;
   viewerHasStarred?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
