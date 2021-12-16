@@ -1,3 +1,5 @@
+## [1.1.207](https://github.com/bbeesley/build-test-merge-publish/compare/v1.1.206...v1.1.207) (2021-12-16)
+
 ## [1.1.206](https://github.com/bbeesley/build-test-merge-publish/compare/v1.1.205...v1.1.206) (2021-12-16)
 
 ## [1.1.205](https://github.com/bbeesley/build-test-merge-publish/compare/v1.1.204...v1.1.205) (2021-12-16)
