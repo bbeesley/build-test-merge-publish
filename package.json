@@ -40,7 +40,7 @@
     "@actions/github": "^5.0.0",
     "@octokit/graphql-schema": "^10.73.0",
     "@octokit/webhooks-definitions": "^3.67.3",
-    "@babel/cli": "^7.16.8",
+    "@babel/cli": "^7.17.0",
     "@babel/core": "^7.17.0",
     "@graphql-codegen/cli": "^2.4.0",
     "@graphql-codegen/typescript": "^2.4.2",
