@@ -46,7 +46,7 @@
     "@graphql-codegen/typescript": "^2.4.6",
     "@graphql-codegen/typescript-document-nodes": "^2.2.5",
     "@graphql-codegen/typescript-operations": "^2.3.2",
-    "@graphql-codegen/typescript-resolvers": "^2.5.2",
+    "@graphql-codegen/typescript-resolvers": "^2.5.3",
     "@babel/node": "^7.16.8",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-stage-0": "^7.8.3",
