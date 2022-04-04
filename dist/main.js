@@ -5122,7 +5122,7 @@ const INTERNALS$2 = Symbol('Request internals');
 const parse_url = external_url_namespaceObject.parse;
 const format_url = external_url_namespaceObject.format;
 
-const streamDestructionSupported = 'destroy' in external_stream_namespaceObject.Readable.prototype;
+const streamDestructionSupported = "destroy" in external_stream_namespaceObject.Readable.prototype;
 
 /**
  * Check if a value is an instance of Request.
