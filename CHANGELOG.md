@@ -1,3 +1,5 @@
+## [1.1.401](https://github.com/bbeesley/build-test-merge-publish/compare/v1.1.400...v1.1.401) (2022-06-16)
+
 ## [1.1.400](https://github.com/bbeesley/build-test-merge-publish/compare/v1.1.399...v1.1.400) (2022-06-16)
 
 ## [1.1.399](https://github.com/bbeesley/build-test-merge-publish/compare/v1.1.398...v1.1.399) (2022-06-16)
