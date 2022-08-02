@@ -41,7 +41,7 @@
     "@octokit/graphql-schema": "^10.74.2",
     "@octokit/webhooks-definitions": "^3.67.3",
     "@babel/cli": "^7.18.10",
-    "@babel/core": "^7.18.9",
+    "@babel/core": "^7.18.10",
     "@graphql-codegen/cli": "^2.11.3",
     "@graphql-codegen/typescript": "^2.7.2",
     "@graphql-codegen/typescript-document-nodes": "^2.3.2",
