@@ -63,7 +63,7 @@
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "babel-jest": "^29.2.2",
-    "babel-loader": "^9.0.0",
+    "babel-loader": "^9.0.1",
     "cache-loader": "^4.1.0",
     "conventional-changelog-angular": "^5.0.13",
     "cz-conventional-changelog": "^3.3.0",
