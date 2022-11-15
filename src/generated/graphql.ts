@@ -22019,6 +22019,8 @@ export type SponsorsListing = Node & {
   __typename?: 'SponsorsListing';
   /** The current goal the maintainer is trying to reach with GitHub Sponsors, if any. */
   activeGoal?: Maybe<SponsorsGoal>;
+  /** The name of the country or region with the maintainer's bank account or fiscal host. Will only return a value when queried by the maintainer themselves, or by an admin of the sponsorable organization. */
+  billingCountryOrRegion?: Maybe<Scalars['String']>;
   /** Identifies the date and time when the object was created. */
   createdAt: Scalars['DateTime'];
   /** The HTTP path for the Sponsors dashboard for this Sponsors listing. */
@@ -22036,6 +22038,8 @@ export type SponsorsListing = Node & {
   name: Scalars['String'];
   /** A future date on which this listing is eligible to receive a payout. */
   nextPayoutDate?: Maybe<Scalars['Date']>;
+  /** The name of the country or region where the maintainer resides. Will only return a value when queried by the maintainer themselves, or by an admin of the sponsorable organization. */
+  residenceCountryOrRegion?: Maybe<Scalars['String']>;
   /** The HTTP path for this Sponsors listing. */
   resourcePath: Scalars['URI'];
   /** The short description of the listing. */
@@ -36743,6 +36747,7 @@ export type SponsorsGoalResolvers<ContextType = any, ParentType extends Resolver
 
 export type SponsorsListingResolvers<ContextType = any, ParentType extends ResolversParentTypes['SponsorsListing'] = ResolversParentTypes['SponsorsListing']> = {
   activeGoal?: Resolver<Maybe<ResolversTypes['SponsorsGoal']>, ParentType, ContextType>;
+  billingCountryOrRegion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   dashboardResourcePath?: Resolver<ResolversTypes['URI'], ParentType, ContextType>;
   dashboardUrl?: Resolver<ResolversTypes['URI'], ParentType, ContextType>;
@@ -36752,6 +36757,7 @@ export type SponsorsListingResolvers<ContextType = any, ParentType extends Resol
   isPublic?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   nextPayoutDate?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  residenceCountryOrRegion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   resourcePath?: Resolver<ResolversTypes['URI'], ParentType, ContextType>;
   shortDescription?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
