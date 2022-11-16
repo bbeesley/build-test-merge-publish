@@ -3398,6 +3398,8 @@ export type CreateProjectV2Input = {
   ownerId: Scalars['ID'];
   /** The repository to link the project to. */
   repositoryId?: InputMaybe<Scalars['ID']>;
+  /** The team to link the project to. The team will be granted read permissions. */
+  teamId?: InputMaybe<Scalars['ID']>;
   /** The title of the project. */
   title: Scalars['String'];
 };
@@ -13006,6 +13008,7 @@ export type OrganizationSponsorshipsAsSponsorArgs = {
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
+  maintainerLogins?: InputMaybe<Array<Scalars['String']>>;
   orderBy?: InputMaybe<SponsorshipOrder>;
 };
 
@@ -19675,7 +19678,10 @@ export type Repository = Node & PackageOwner & ProjectOwner & ProjectV2Recent & 
   squashMergeCommitMessage: SquashMergeCommitMessage;
   /** How the default commit title will be generated when squash merging a pull request. */
   squashMergeCommitTitle: SquashMergeCommitTitle;
-  /** Whether a squash merge commit can use the pull request title as default. */
+  /**
+   * Whether a squash merge commit can use the pull request title as default.
+   * @deprecated `squashPrTitleUsedAsDefault` will be removed. Use `Repository.squashMergeCommitTitle` instead. Removal on 2023-04-01 UTC.
+   */
   squashPrTitleUsedAsDefault: Scalars['Boolean'];
   /** The SSH URL to clone this repository */
   sshUrl: Scalars['GitSSHRemote'];
@@ -21867,6 +21873,7 @@ export type SponsorableSponsorshipsAsSponsorArgs = {
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
+  maintainerLogins?: InputMaybe<Array<Scalars['String']>>;
   orderBy?: InputMaybe<SponsorshipOrder>;
 };
 
@@ -22021,6 +22028,8 @@ export type SponsorsListing = Node & {
   activeGoal?: Maybe<SponsorsGoal>;
   /** The name of the country or region with the maintainer's bank account or fiscal host. Will only return a value when queried by the maintainer themselves, or by an admin of the sponsorable organization. */
   billingCountryOrRegion?: Maybe<Scalars['String']>;
+  /** The email address used by GitHub to contact the sponsorable about their GitHub Sponsors profile. Will only return a value when queried by the maintainer themselves, or by an admin of the sponsorable organization. */
+  contactEmailAddress?: Maybe<Scalars['String']>;
   /** Identifies the date and time when the object was created. */
   createdAt: Scalars['DateTime'];
   /** The HTTP path for the Sponsors dashboard for this Sponsors listing. */
@@ -22625,8 +22634,12 @@ export type Submodule = {
   gitUrl: Scalars['URI'];
   /** The name of the submodule in .gitmodules */
   name: Scalars['String'];
+  /** The name of the submodule in .gitmodules (Base64-encoded) */
+  nameRaw: Scalars['Base64String'];
   /** The path in the superproject that this submodule is located in */
   path: Scalars['String'];
+  /** The path in the superproject that this submodule is located in (Base64-encoded) */
+  pathRaw: Scalars['Base64String'];
   /** The commit revision of the subproject repository being tracked by the submodule */
   subprojectCommitOid?: Maybe<Scalars['GitObjectID']>;
 };
@@ -23791,12 +23804,16 @@ export type TreeEntry = {
   mode: Scalars['Int'];
   /** Entry file name. */
   name: Scalars['String'];
+  /** Entry file name. (Base64-encoded) */
+  nameRaw: Scalars['Base64String'];
   /** Entry file object. */
   object?: Maybe<GitObject>;
   /** Entry file Git object ID. */
   oid: Scalars['GitObjectID'];
   /** The full path of the file. */
   path?: Maybe<Scalars['String']>;
+  /** The full path of the file. (Base64-encoded) */
+  pathRaw?: Maybe<Scalars['Base64String']>;
   /** The Repository the tree entry belongs to */
   repository: Repository;
   /** Entry byte size */
@@ -26108,6 +26125,7 @@ export type UserSponsorshipsAsSponsorArgs = {
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
+  maintainerLogins?: InputMaybe<Array<Scalars['String']>>;
   orderBy?: InputMaybe<SponsorshipOrder>;
 };
 
@@ -36748,6 +36766,7 @@ export type SponsorsGoalResolvers<ContextType = any, ParentType extends Resolver
 export type SponsorsListingResolvers<ContextType = any, ParentType extends ResolversParentTypes['SponsorsListing'] = ResolversParentTypes['SponsorsListing']> = {
   activeGoal?: Resolver<Maybe<ResolversTypes['SponsorsGoal']>, ParentType, ContextType>;
   billingCountryOrRegion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  contactEmailAddress?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   dashboardResourcePath?: Resolver<ResolversTypes['URI'], ParentType, ContextType>;
   dashboardUrl?: Resolver<ResolversTypes['URI'], ParentType, ContextType>;
@@ -36986,7 +37005,9 @@ export type SubmoduleResolvers<ContextType = any, ParentType extends ResolversPa
   branch?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   gitUrl?: Resolver<ResolversTypes['URI'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  nameRaw?: Resolver<ResolversTypes['Base64String'], ParentType, ContextType>;
   path?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  pathRaw?: Resolver<ResolversTypes['Base64String'], ParentType, ContextType>;
   subprojectCommitOid?: Resolver<Maybe<ResolversTypes['GitObjectID']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -37452,9 +37473,11 @@ export type TreeEntryResolvers<ContextType = any, ParentType extends ResolversPa
   lineCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   mode?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  nameRaw?: Resolver<ResolversTypes['Base64String'], ParentType, ContextType>;
   object?: Resolver<Maybe<ResolversTypes['GitObject']>, ParentType, ContextType>;
   oid?: Resolver<ResolversTypes['GitObjectID'], ParentType, ContextType>;
   path?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  pathRaw?: Resolver<Maybe<ResolversTypes['Base64String']>, ParentType, ContextType>;
   repository?: Resolver<ResolversTypes['Repository'], ParentType, ContextType>;
   size?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   submodule?: Resolver<Maybe<ResolversTypes['Submodule']>, ParentType, ContextType>;
