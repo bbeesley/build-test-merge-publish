@@ -42,7 +42,7 @@
     "@octokit/webhooks-definitions": "^3.67.3",
     "@babel/cli": "^7.20.7",
     "@babel/core": "^7.20.7",
-    "@graphql-codegen/cli": "^2.16.1",
+    "@graphql-codegen/cli": "^2.16.2",
     "@graphql-codegen/typescript": "^2.8.6",
     "@graphql-codegen/typescript-document-nodes": "^2.3.11",
     "@graphql-codegen/typescript-operations": "^2.5.11",
